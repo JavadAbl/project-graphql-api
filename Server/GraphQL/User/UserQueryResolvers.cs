@@ -1,30 +1,21 @@
 ﻿using API.Dto;
-using API.GraphQL.User.UserInputs;
 using API.Interfaces.Services;
 
 namespace API.GraphQL.User;
 
 
 [ExtendObjectType(typeof(Query))]
-public class UserQueryResolvers
+public class BranchQueryResolvers
 {
-
-
     public Task<IEnumerable<UserDto>> GetUsers([Service] IUserService userService)
     {
-        return userService.GetUsers();
+        return userService.GetMany();
     }
 
     public async Task<UserDto?> GetUserById(int id, [Service] IUserService userService)
     {
         return await userService.GetById(id);
     }
-
-    public async Task<UserDto> CreateUser(CreateUserInput input, [Service] IUserService userService)
-    {
-        return await userService.CreateUser(input);
-    }
-
 
     // Resolver for the `branch` field on UserDto
     public async Task<BranchDto?> GetBranch(

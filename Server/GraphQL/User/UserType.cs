@@ -2,12 +2,12 @@
 
 namespace API.GraphQL.User;
 
-public class UserType : ObjectType<UserDto>
+public class BranchType : ObjectType<UserDto>
 {
     protected override void Configure(IObjectTypeDescriptor<UserDto> descriptor)
     {
         descriptor.Field(u => u.Branch)
-                  .ResolveWith<UserQueryResolvers>(r => r.GetBranch(default!, default!, default));
+                  .ResolveWith<BranchQueryResolvers>(r => r.GetBranch(default!, default!, default));
     }
 }
 

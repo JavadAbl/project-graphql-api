@@ -1,9 +1,12 @@
 ﻿namespace API.Dto;
 
-public record FactorOrderDto(
-    int Id,
-    int FactorId,
-    int ProductId,
-    int Quantity,
-    decimal UnitPrice);
+public class FactorOrderDto
+{
+    public int Id { get; set; }
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public required ProductDto Product { get; set; }
+    public required FactorDto Factor { get; set; }
+}
+
 

@@ -7,16 +7,20 @@ using KeyNotFoundException = System.Collections.Generic.KeyNotFoundException;
 
 namespace API.Services;
 
-public class Service<TEntity, TDto>(IRepository<TEntity> rep) : IService<TEntity, TDto>
+public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IRepository<TEntity> rep)
+    : IService<TEntity, TDto, TCreateInput, TUpdateInput>
     where TEntity : class
     where TDto : class
+    where TCreateInput : class
+    where TUpdateInput : class
 {
+    public abstract Task<IEnumerable<TDto>> GetMany();
+    public abstract Task<TDto?> GetById(int id);
+    public abstract Task<TDto> Create(TCreateInput input);
+    public abstract Task<TDto> Update(int id, TUpdateInput input);
+    public abstract Task<bool> Delete(int id);
 
 
-    /// <summary>
-    /// Retrieves the entity with the given <paramref name="id"/>, throws if it does not exist,
-    /// maps it to <typeparamref name="TDto"/> and returns the DTO.
-    /// </summary>
     public async Task<TEntity> CheckExistsByIdAsync(int id)
     {
         // fetch the entity
@@ -30,8 +34,6 @@ public class Service<TEntity, TDto>(IRepository<TEntity> rep) : IService<TEntity
         return entity;
     }
 
-
-
     public async Task<bool> CheckConflictByIdAsync(int id)
     {
         var exists = await rep.Exists(e => EF.Property<int>(e, "Id") == id);
@@ -41,27 +43,6 @@ public class Service<TEntity, TDto>(IRepository<TEntity> rep) : IService<TEntity
 
         return exists;
     }
-
-    // Simple generic mapper – works for flat objects with matching property names.
-    /*  public static TDto MapToDto(TEntity entity)
-      {
-          var dto = new TDto();
-          var entityProps = typeof(TEntity).GetProperties();
-          var dtoProps = typeof(TDto).GetProperties();
-
-          foreach (var eProp in entityProps)
-          {
-              var dProp = System.Array.Find(dtoProps,
-                  p => p.Name == eProp.Name && p.PropertyType == eProp.PropertyType);
-              if (dProp != null && dProp.CanWrite)
-              {
-                  var value = eProp.GetValue(entity);
-                  dProp.SetValue(dto, value);
-              }
-          }
-
-          return dto;
-      }*/
 
 
     public static TDto MapToDto<TEntity, TDto>(TEntity entity)

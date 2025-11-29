@@ -7,52 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Services;
 
-public class UserService(IUserRepository rep) : Service<User, UserDto>(rep), IUserService
+public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUserInput, UpdateUserInput>(rep), IUserService
 {
 
-    public async Task<BranchDto?> GetUserBranch(int userId)
-    {
-        var user = await rep.GetByIdAsync(userId);
-
-        if (user == null)
-            return null;
-
-
-        var branch = user.Branch;
-        if (branch == null)
-            return null;
-
-        return new BranchDto
-        {
-            Id = branch.Id,
-            Name = branch.Name,
-            Phone = branch.Phone,
-            Location = branch.Location
-        };
-    }
-
-    public async Task<UserDto?> GetById(int id)
-    {
-        var user = await rep.GetQueryable()
-            .FirstOrDefaultAsync(u => u.Id == id);
-        if (user == null)
-            return null;
-
-        var userDto = MapToDto<User, UserDto>(user);
-        /* var branch = user.Branch;
-         if (branch != null)
-             userDto.Branch = new BranchDto(branch.Id, branch.Name, branch.Phone, branch.Location);*/
-
-        return userDto;
-    }
-
-    public async Task<IEnumerable<UserDto>> GetUsers()
+    public override async Task<IEnumerable<UserDto>> GetMany()
     {
         return rep.GetQueryable()
             .Select(u => MapToDto<User, UserDto>(u));
     }
 
-    public async Task<UserDto> CreateUser(CreateUserInput input)
+    public override async Task<UserDto?> GetById(int id)
+    {
+        var user = await CheckExistsByIdAsync(id);
+        var userDto = MapToDto<User, UserDto>(user);
+
+        return userDto;
+    }
+
+    public override async Task<UserDto> Create(CreateUserInput input)
     {
         var existingUser = await rep.FindOneByAsync(e => (e.Username == input.Username));
 
@@ -83,17 +55,7 @@ public class UserService(IUserRepository rep) : Service<User, UserDto>(rep), IUs
         return MapToDto<User, UserDto>(createdUser);
     }
 
-    private string HashPassword(string password)
-    {
-        // Implement your preferred password hashing algorithm
-        // Example using BCrypt (you'll need to install the BCrypt.Net-Next package):
-        // return BCrypt.Net.BCrypt.HashPassword(password);
-
-        // For now, returning a placeholder - implement proper hashing in production
-        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
-    }
-
-    public async Task<UserDto> UpdateUser(int id, UpdateUserInput input)
+    public override async Task<UserDto> Update(int id, UpdateUserInput input)
     {
         var user = await CheckExistsByIdAsync(id);
         rep.ApplyUpdate<UpdateUserInput>(user, input);
@@ -101,11 +63,38 @@ public class UserService(IUserRepository rep) : Service<User, UserDto>(rep), IUs
         return MapToDto<User, UserDto>(user);
     }
 
-    public async Task<bool> DeleteUser(int id)
+    public override async Task<bool> Delete(int id)
     {
         var user = await CheckExistsByIdAsync(id);
         rep.Delete(user);
         return await rep.SaveChangesAsync();
+    }
+
+
+    public async Task<BranchDto?> GetUserBranch(int userId)
+    {
+        var user = await rep.GetByIdAsync(userId);
+
+        if (user == null)
+            return null;
+
+
+        var branch = user.Branch;
+        if (branch == null)
+            return null;
+
+        return new BranchDto
+        {
+            Id = branch.Id,
+            Name = branch.Name,
+            Phone = branch.Phone,
+            Location = branch.Location
+        };
+    }
+
+    private string HashPassword(string password)
+    {
+        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
     }
 
     public async Task<bool> SetBranch(int id, SetUserBranchInput input)
@@ -114,5 +103,7 @@ public class UserService(IUserRepository rep) : Service<User, UserDto>(rep), IUs
         rep.ApplyUpdate<SetUserBranchInput>(user, input);
         return await rep.SaveChangesAsync();
     }
+
+
 }
 

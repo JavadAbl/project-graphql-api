@@ -1,13 +1,15 @@
-namespace API.Interfaces.Services;
+﻿namespace API.Interfaces.Services;
 
-public interface IService<TEntity, TDto>
+public interface IService<TEntity, TDto, TCreateInput, TUpdateInput>
     where TEntity : class
     where TDto : class
+    where TCreateInput : class
+    where TUpdateInput : class
 {
-    /// <summary>
-    /// Retrieves the entity with the given <paramref name="id"/>, throws if it does not exist,
-    /// maps it to <typeparamref name="TDto"/> and returns the DTO.
-    /// </summary>
-    Task<TEntity> CheckExistsByIdAsync(int id);
-    Task<bool> CheckConflictByIdAsync(int id);
+    public Task<IEnumerable<TDto>> GetMany();
+    public Task<TDto?> GetById(int id);
+    public Task<TDto> Create(TCreateInput input);
+    public Task<TDto> Update(int id, TUpdateInput input);
+    public Task<bool> Delete(int id);
 }
+

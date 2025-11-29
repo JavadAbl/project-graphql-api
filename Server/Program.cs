@@ -12,15 +12,14 @@ builder.Services.AddDbContext<AppDbContext>(op =>
 {
     op.UseSqlite("Data Source=app.db");
 });
-//builder.Services.AddDbContextFactory<AppDbContext>(options =>
-//    options.UseSqlite("Data Source=app.db"));
+
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // your frontend URL
+            policy.WithOrigins("http://localhost:5173")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -30,10 +29,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddType<UserQueryResolvers>()
-    .AddType<UserType>()
+    .AddType<BranchQueryResolvers>()
+    .AddType<BranchType>()
     .AddMutationType<Mutation>()
-    .AddType<UserMutationResolvers>();
+    .AddType<BranchMutationResolvers>();
 
 
 //Repositories------------------------------------------------------
