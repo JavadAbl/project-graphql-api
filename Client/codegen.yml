@@ -1,0 +1,11 @@
+overwrite: true
+schema: "http://localhost:4000/graphql"
+documents: "src/**/*.graphql"
+generates:
+  src/gql/:
+    preset: client # This preset AUTOMATICALLY includes all required plugins
+    # REMOVE THE MANUAL PLUGINS SECTION BELOW
+    # plugins:
+    #   - "typescript"
+    #   - "typescript-operations"
+    #   - "typed-document-node"

@@ -7,5 +7,6 @@ public class UserDto
     public required string LastName { get; set; }
     public required string Username { get; set; }
     public required string Role { get; set; }
+    public bool IsActive { get; set; } = false;
     public required BranchDto? Branch { get; set; }
 }

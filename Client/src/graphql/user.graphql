@@ -1,0 +1,28 @@
+query User_Query_GetUsers {
+  users {
+    id
+    username
+    firstName
+    lastName
+    role
+    isActive
+    branch {
+      id
+      name
+    }
+  }
+}
+
+mutation User_Mutation_CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    id
+    username
+    firstName
+    lastName
+    role
+    branch {
+      id
+      name
+    }
+  }
+}

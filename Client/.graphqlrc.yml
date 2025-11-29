@@ -1,0 +1,14 @@
+# .graphqlrc.yml
+
+# This tells the extension where your GraphQL API (the "schema") is located.
+schema:
+  # The URL of your GraphQL endpoint.
+  # Replace this with your actual server URL.
+  - http://localhost:4000/graphql
+  # You can add multiple endpoints if you work with more than one.
+  # - https://my-graphql-api.com/v1/graphql
+# If your API requires authentication, you can specify headers here.
+# This is the most common way to provide an API key or JWT token.
+
+# Example for an API Key
+# X-API-Key: "YOUR_API_KEY_HERE"

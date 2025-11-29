@@ -15,6 +15,17 @@ builder.Services.AddDbContext<AppDbContext>(op =>
 //builder.Services.AddDbContextFactory<AppDbContext>(options =>
 //    options.UseSqlite("Data Source=app.db"));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // your frontend URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 //Serivces------------------------------------------------------
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddGraphQLServer()
@@ -30,8 +41,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //App------------------------------------------------------
 var app = builder.Build();
-app.MapGraphQL();
+app.UseCors("AllowFrontend");
 
+app.MapGraphQL();
 
 using (var scope = app.Services.CreateScope())
 {
