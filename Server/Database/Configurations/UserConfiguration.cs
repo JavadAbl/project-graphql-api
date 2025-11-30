@@ -11,7 +11,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
 
         // --- Table Configuration ---
-        //  builder.ToTable("Users");
+        builder.ToTable("Users");
 
         // --- Primary Key Configuration ---
         builder.HasKey(u => u.Id);
@@ -56,13 +56,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // This is the preferred way to configure a relationship when you have a foreign key property.
         // EF Core will automatically use the 'BranchID' property as the FK.
         builder.HasOne(u => u.Branch)
-               .WithMany(b => b.Users) // Assumes Branch has a navigation property 'Users'
+               .WithMany(b => b.Users)
                .HasForeignKey(u => u.BranchId);
 
         // --- User to Factor Relationship (One-to-Many) ---
         // A user can create many factors.
-        builder.HasMany(u => u.CreatedFactors)
-               .WithOne(f => f.User) // Assumes Factor has a navigation property 'User'
-               .HasForeignKey(f => f.UserId); // Assumes the foreign key property in Factor is named UserID
+        /* builder.HasMany(u => u.CreatedFactors)
+                .WithOne(f => f.User)
+                .HasForeignKey(f => f.UserId);*/
     }
 }

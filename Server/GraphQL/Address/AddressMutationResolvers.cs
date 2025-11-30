@@ -5,7 +5,7 @@ using API.Interfaces.Services;
 namespace API.GraphQL.Address;
 
 [ExtendObjectType(typeof(Mutation))]
-public class AddressMutationResolvers
+public class FactorMutationResolvers
 {
   public async Task<AddressDto> CreateAddress(
     CreateAddressInput input,

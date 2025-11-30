@@ -10,7 +10,7 @@ public class FactorOrderConfiguration : IEntityTypeConfiguration<FactorOrder>
     public void Configure(EntityTypeBuilder<FactorOrder> builder)
     {
         // --- Table Configuration ---
-        // builder.ToTable("FactorOrders");
+        builder.ToTable("FactorOrders");
 
         // --- Primary Key Configuration ---
         builder.HasKey(fo => fo.Id);
@@ -40,8 +40,8 @@ public class FactorOrderConfiguration : IEntityTypeConfiguration<FactorOrder>
         // --- FactorOrder to Product Relationship (Many-to-One) ---
         // Many factor order items can reference the same product.
         builder.HasOne(fo => fo.Product)
-               .WithMany(p => p.FactorOrders) // Assumes Product has a 'FactorOrders' collection
+               .WithMany(p => p.FactorOrders)
                .HasForeignKey(fo => fo.ProductID)
-               .OnDelete(DeleteBehavior.Restrict); // Prevent deleting a product if it's part of an order.
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

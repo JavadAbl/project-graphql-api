@@ -1,12 +1,11 @@
 ﻿using API.Dto;
-using API.GraphQL.Address.AddressInputs;
 using API.Interfaces.Services;
 
 namespace API.GraphQL.Address;
 
 
 [ExtendObjectType(typeof(Query))]
-public class AddressQueryResolvers
+public class FactorQueryResolvers
 {
     public Task<IEnumerable<AddressDto>> GetAddresses([Service] IAddressService addressService)
     {
@@ -21,7 +20,7 @@ public class AddressQueryResolvers
     public async Task<CustomerDto> GetCustomer([Parent] CustomerDto customer,
      [Service] IAddressService addressService)
     {
-        return await addressService.Create(input);
+        return await addressService.GetCustomer(customer.Id);
     }
 
 }

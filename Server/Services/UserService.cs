@@ -104,6 +104,11 @@ public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUse
         return await rep.SaveChangesAsync();
     }
 
+    public async Task<IEnumerable<UserDto>> GetUsersByBranch(int branchId)
+    {
+        var users = await rep.FindManyAsync(e => e.BranchId == branchId);
+        return users.Select(e => MapToDto<User, UserDto>(e));
+    }
 
 }
 

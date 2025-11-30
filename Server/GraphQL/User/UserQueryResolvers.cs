@@ -17,6 +17,11 @@ public class UserQueryResolvers
         return await userService.GetById(id);
     }
 
+    public async Task<IEnumerable<UserDto>> GetUsersByBranch(int branchId, [Service] IUserService userService)
+    {
+        return await userService.GetUsersByBranch(branchId);
+    }
+
     // Resolver for the `branch` field on UserDto
     public async Task<BranchDto?> GetBranch(
         [Parent] UserDto user,

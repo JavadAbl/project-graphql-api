@@ -9,7 +9,7 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
     public void Configure(EntityTypeBuilder<Branch> builder)
     {
         // --- Table Configuration ---
-        //  builder.ToTable("Branches");
+        builder.ToTable("Branches");
 
         // --- Primary Key Configuration ---
         builder.HasKey(b => b.Id);
@@ -42,7 +42,7 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
         // A branch can have many factors (sales).
         // This configures the one-to-many relationship.
         builder.HasMany(b => b.Factors)
-               .WithOne() // Assumes Factor has a reference back to Branch
-               .HasForeignKey(f => f.BranchID); // Assumes the foreign key property in Factor is named BranchID
+               .WithOne()
+               .HasForeignKey(f => f.BranchId);
     }
 }

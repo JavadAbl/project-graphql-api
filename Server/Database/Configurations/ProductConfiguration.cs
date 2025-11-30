@@ -50,7 +50,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         // A product can be in many factor orders (line items).
         // This configures the one-to-many relationship.
         builder.HasMany(p => p.FactorOrders)
-               .WithOne() // Assumes FactorOrder has a reference back to Product
-               .HasForeignKey(f => f.Id); // Assumes the foreign key property in FactorOrder is named ProductId
+               .WithOne(e => e.Product)
+               .HasForeignKey(f => f.ProductID);
     }
 }

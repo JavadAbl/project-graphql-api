@@ -13,5 +13,5 @@ public class Address
 
     // --- Navigation Property ---
     public required virtual Customer Customer { get; set; }
-    public int CustomerID { get; set; }
+    public int CustomerId { get; set; }
 }

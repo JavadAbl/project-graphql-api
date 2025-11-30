@@ -9,6 +9,7 @@ public interface IUserService : IService<User, UserDto, CreateUserInput, UpdateU
 
     Task<bool> SetBranch(int id, SetUserBranchInput input);
     Task<BranchDto?> GetUserBranch(int userId);
+    Task<IEnumerable<UserDto>> GetUsersByBranch(int branchId);
 
 }
 

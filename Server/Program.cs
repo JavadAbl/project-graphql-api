@@ -42,9 +42,9 @@ builder.Services.AddGraphQLServer()
     .AddType<BranchMutationResolvers>()
     .AddType<BranchType>()
     //Address
-    .AddType<AddressQueryResolvers>()
-    .AddType<AddressMutationResolvers>()
-    .AddType<AddressType>()
+    .AddType<FactorQueryResolvers>()
+    .AddType<FactorMutationResolvers>()
+    .AddType<FactorType>()
     //Customer
     .AddType<CustomerQueryResolvers>()
     .AddType<CustomerMutationResolvers>()

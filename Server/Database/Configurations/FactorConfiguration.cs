@@ -10,7 +10,7 @@ public class FactorConfiguration : IEntityTypeConfiguration<Factor>
     public void Configure(EntityTypeBuilder<Factor> builder)
     {
         // --- Table Configuration ---
-        //   builder.ToTable("Factors");
+        builder.ToTable("Factors");
 
         // --- Primary Key Configuration ---
         builder.HasKey(f => f.Id);
@@ -42,33 +42,32 @@ public class FactorConfiguration : IEntityTypeConfiguration<Factor>
 
         // --- Factor to Customer Relationship (Many-to-One) ---
         builder.HasOne(f => f.Customer)
-               .WithMany(c => c.Factors) // Assumes Customer has a 'Factors' collection
-               .HasForeignKey(f => f.CustomerID)
+               .WithMany(c => c.Factors)
+               .HasForeignKey(f => f.CustomerId)
                .OnDelete(DeleteBehavior.Restrict); // A factor shouldn't delete its customer
 
         // --- Factor to Seller (User) Relationship (Many-to-One) ---
         builder.HasOne(f => f.User)
-               .WithMany(u => u.CreatedFactors) // Assumes User has a 'CreatedFactors' collection
+               .WithMany()
                .HasForeignKey(f => f.UserId)
                .OnDelete(DeleteBehavior.Restrict); // Don't delete the user if they have factors
 
         // --- Factor to Branch Relationship (Many-to-One) ---
         builder.HasOne(f => f.Branch)
-               .WithMany(b => b.Factors) // Assumes Branch has a 'Factors' collection
-               .HasForeignKey(f => f.BranchID)
+               .WithMany(b => b.Factors)
+               .HasForeignKey(f => f.BranchId)
                .OnDelete(DeleteBehavior.Restrict); // Don't delete the branch if it has factors
 
         // --- Factor to DeliveryAddress Relationship (Optional One-to-One) ---
         // The foreign key property 'DeliveryAddressID' is nullable (int?),
         // so EF Core will correctly configure this as an optional relationship.
         builder.HasOne(f => f.DeliveryAddress)
-               .WithMany() // An address doesn't need a collection back to factors
-               .HasForeignKey(f => f.DeliveryAddressID);
+               .WithMany()
+               .HasForeignKey(f => f.DeliveryAddressId);
 
-        // --- Factor to FactorOrder Relationship (One-to-Many) ---
-        // A factor can have many order items (line items).
+
         builder.HasMany(f => f.FactorOrders)
-               .WithOne(fo => fo.Factor) // Assumes FactorOrder has a 'Factor' navigation property
-               .HasForeignKey(fo => fo.FactorID); // Assumes FactorOrder has a 'FactorID' foreign key
+               .WithOne(fo => fo.Factor)
+               .HasForeignKey(fo => fo.FactorID);
     }
 }

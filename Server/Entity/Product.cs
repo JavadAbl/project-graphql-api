@@ -3,12 +3,12 @@
 public class Product
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string SKU { get; set; }
+    public required string Name { get; set; }
+    public string? Description { get; set; }
+    public string? SKU { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
 
     // --- Navigation Properties ---
-    public virtual ICollection<FactorOrder> FactorOrders { get; set; }
+    public virtual ICollection<FactorOrder> FactorOrders { get; set; } = [];
 }

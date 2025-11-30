@@ -15,5 +15,4 @@ public class User
     public virtual Branch? Branch { get; set; }
     public int? BranchId { get; set; }
 
-    public virtual ICollection<Factor> CreatedFactors { get; set; } = [];
 }

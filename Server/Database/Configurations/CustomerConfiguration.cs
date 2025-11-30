@@ -9,7 +9,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
         // Table configuration
-        // builder.ToTable("Customers");
+        builder.ToTable("Customers");
         builder.HasIndex(e => e.Email).IsUnique();
 
         // Primary key configuration
@@ -39,11 +39,11 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         // Navigation properties configuration
         builder.HasMany(c => c.Addresses)
-            .WithOne() // Assuming there's a Customer reference in Address
-            .HasForeignKey("CustomerID"); // Assuming the foreign key property name
+            .WithOne(e => e.Customer)
+            .HasForeignKey(e => e.CustomerId);
 
         builder.HasMany(c => c.Factors)
-            .WithOne() // Assuming there's a Customer reference in Factor
-            .HasForeignKey("CustomerID"); // Assuming the foreign key property name
+            .WithOne(e => e.Customer)
+            .HasForeignKey(e => e.CustomerId);
     }
 }

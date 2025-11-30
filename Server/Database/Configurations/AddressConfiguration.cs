@@ -58,8 +58,8 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         // An address belongs to one customer.
         // EF Core will automatically use the 'CustomerID' property as the foreign key.
         builder.HasOne(a => a.Customer)
-               .WithMany(c => c.Addresses) // Assumes Customer has a navigation property 'Addresses'
-               .HasForeignKey(a => a.CustomerID)
-               .OnDelete(DeleteBehavior.Cascade); // Optional: Specify delete behavior
+               .WithMany(c => c.Addresses)
+               .HasForeignKey(a => a.CustomerId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }
