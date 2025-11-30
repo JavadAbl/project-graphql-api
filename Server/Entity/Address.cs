@@ -3,17 +3,15 @@
 public class Address
 {
     public int Id { get; set; }
-    public string AddressLine1 { get; set; }
-    public string AddressLine2 { get; set; }
-    public string City { get; set; }
-    public string State { get; set; }
-    public string PostalCode { get; set; }
-    public string Country { get; set; }
-    public string AddressType { get; set; }
-
-    // --- Foreign Key Property ---
-    public int CustomerID { get; set; }
+    public required string AddressLine1 { get; set; }
+    public string? AddressLine2 { get; set; }
+    public required string City { get; set; }
+    public string? State { get; set; }
+    public required string PostalCode { get; set; }
+    public required string Country { get; set; }
+    public required string AddressType { get; set; }
 
     // --- Navigation Property ---
-    public virtual Customer Customer { get; set; }
+    public required virtual Customer Customer { get; set; }
+    public int CustomerID { get; set; }
 }

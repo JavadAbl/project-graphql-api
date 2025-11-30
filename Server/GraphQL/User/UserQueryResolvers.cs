@@ -5,7 +5,7 @@ namespace API.GraphQL.User;
 
 
 [ExtendObjectType(typeof(Query))]
-public class BranchQueryResolvers
+public class UserQueryResolvers
 {
     public Task<IEnumerable<UserDto>> GetUsers([Service] IUserService userService)
     {

@@ -11,5 +11,8 @@ public interface IService<TEntity, TDto, TCreateInput, TUpdateInput>
     public Task<TDto> Create(TCreateInput input);
     public Task<TDto> Update(int id, TUpdateInput input);
     public Task<bool> Delete(int id);
+    public Task<TEntity> CheckExistsByIdAsync(int id);
+    public Task<bool> CheckConflictByIdAsync(int id);
+
 }
 

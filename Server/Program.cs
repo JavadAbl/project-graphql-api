@@ -1,4 +1,7 @@
 using API.GraphQL;
+using API.GraphQL.Address;
+using API.GraphQL.Branch;
+using API.GraphQL.Customer;
 using API.GraphQL.User;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
@@ -29,10 +32,23 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddType<BranchQueryResolvers>()
-    .AddType<BranchType>()
     .AddMutationType<Mutation>()
-    .AddType<BranchMutationResolvers>();
+    //User
+    .AddType<UserQueryResolvers>()
+    .AddType<UserMutationResolvers>()
+    .AddType<UserType>()
+    //Branch
+    .AddType<BranchQueryResolvers>()
+    .AddType<BranchMutationResolvers>()
+    .AddType<BranchType>()
+    //Address
+    .AddType<AddressQueryResolvers>()
+    .AddType<AddressMutationResolvers>()
+    .AddType<AddressType>()
+    //Customer
+    .AddType<CustomerQueryResolvers>()
+    .AddType<CustomerMutationResolvers>()
+    .AddType<CustomerType>();
 
 
 //Repositories------------------------------------------------------

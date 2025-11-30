@@ -4,6 +4,6 @@ using Entity;
 
 namespace API.Repositories;
 
-public class BranchRepository(AppDbContext rep) : Repository<Branch>(rep), IBranchRepository
+public class AddressRepository(AppDbContext rep) : Repository<Address>(rep), IAddressRepository
 {
 }

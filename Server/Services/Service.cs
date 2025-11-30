@@ -1,6 +1,7 @@
 ﻿using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 using KeyNotFoundException = System.Collections.Generic.KeyNotFoundException;
@@ -80,6 +81,5 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
         // No public ctor → use uninitialized object (no ctor runs)
         return (T)FormatterServices.GetUninitializedObject(typeof(T));
     }
-
 
 }

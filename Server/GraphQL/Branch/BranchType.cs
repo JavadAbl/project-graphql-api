@@ -6,8 +6,7 @@ public class BranchType : ObjectType<BranchDto>
 {
     protected override void Configure(IObjectTypeDescriptor<BranchDto> descriptor)
     {
-        /* descriptor.Field(u => u.Branch)
-                   .ResolveWith<BranchQueryResolvers>(r => r.GetBranch(default!, default!, default));*/
+
     }
 }
 

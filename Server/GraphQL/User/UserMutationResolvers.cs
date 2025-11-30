@@ -5,29 +5,29 @@ using API.Interfaces.Services;
 namespace API.GraphQL.User;
 
 [ExtendObjectType(typeof(Mutation))]
-public class BranchMutationResolvers
+public class UserMutationResolvers
 {
-    public async Task<UserDto> CreateUser(
-      CreateUserInput input,
-      [Service] IUserService userService) =>
-      await userService.Create(input);
+  public async Task<UserDto> CreateUser(
+    CreateUserInput input,
+    [Service] IUserService userService) =>
+    await userService.Create(input);
 
-    public async Task<UserDto?> UpdateUser(
-         int id,
-         UpdateUserInput input,
-         [Service] IUserService userService) =>
-         await userService.Update(id, input);
-
-
-    public async Task<bool> DeleteUser(
-        int id,
-        [Service] IUserService userService) =>
-        await userService.Delete(id);
-
-    public async Task<bool> SetUserBranch(
+  public async Task<UserDto?> UpdateUser(
        int id,
-       SetUserBranchInput input,
+       UpdateUserInput input,
+       [Service] IUserService userService) =>
+       await userService.Update(id, input);
+
+
+  public async Task<bool> DeleteUser(
+      int id,
       [Service] IUserService userService) =>
-    await userService.SetBranch(id, input);
+      await userService.Delete(id);
+
+  public async Task<bool> SetUserBranch(
+     int id,
+     SetUserBranchInput input,
+    [Service] IUserService userService) =>
+  await userService.SetBranch(id, input);
 }
 
