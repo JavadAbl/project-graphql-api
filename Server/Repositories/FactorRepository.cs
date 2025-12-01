@@ -1,5 +1,6 @@
-﻿using Database;
-using Entity;
+﻿using API.Entity;
+using API.Interfaces.Repositories;
+using Database;
 
 namespace API.Repositories;
 

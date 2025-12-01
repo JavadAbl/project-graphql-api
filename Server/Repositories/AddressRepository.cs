@@ -1,6 +1,6 @@
-﻿using API.Interfaces.Repositories;
+﻿using API.Entity;
+using API.Interfaces.Repositories;
 using Database;
-using Entity;
 
 namespace API.Repositories;
 

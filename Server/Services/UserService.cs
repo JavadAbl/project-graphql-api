@@ -1,27 +1,28 @@
-﻿using API.Dto;
+﻿using System.Linq.Expressions;
+using API.Dto;
+using API.Entity;
 using API.GraphQL.User.UserInputs;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
-using Entity;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace API.Services;
 
 public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUserInput, UpdateUserInput>(rep), IUserService
 {
-
     public override async Task<IEnumerable<UserDto>> GetMany()
     {
-        return rep.GetQueryable()
-            .Select(u => MapToDto<User, UserDto>(u));
+        return rep.GetQueryable().Select(ToProjectionExpression<User, UserDto>());
     }
 
-    public override async Task<UserDto?> GetById(int id)
+    public override async Task<IQueryable<UserDto>> GetById(int id)
     {
-        var user = await CheckExistsByIdAsync(id);
-        var userDto = MapToDto<User, UserDto>(user);
+        IQueryable<User> baseQuery = rep.GetQueryable().Where(u => u.Id == id);
+        return baseQuery.Select(ToProjectionExpression<User, UserDto>());
+        /*  var user = await CheckExistsByIdAsync(id);
+         var userDto = MapToDto<User, UserDto>(user);
 
-        return userDto;
+         return userDto; */
     }
 
     public override async Task<UserDto> Create(CreateUserInput input)
@@ -71,25 +72,9 @@ public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUse
     }
 
 
-    public async Task<BranchDto?> GetUserBranch(int userId)
+    public IEnumerable<Branch?> GetUserBranch(int userId)
     {
-        var user = await rep.GetByIdAsync(userId);
-
-        if (user == null)
-            return null;
-
-
-        var branch = user.Branch;
-        if (branch == null)
-            return null;
-
-        return new BranchDto
-        {
-            Id = branch.Id,
-            Name = branch.Name,
-            Phone = branch.Phone,
-            Location = branch.Location
-        };
+        return rep.GetQueryable().Select(u => u.Branch);
     }
 
     private string HashPassword(string password)

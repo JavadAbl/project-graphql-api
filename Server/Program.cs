@@ -33,6 +33,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
+    .AddProjections()
     //User
     .AddType<UserQueryResolvers>()
     .AddType<UserMutationResolvers>()

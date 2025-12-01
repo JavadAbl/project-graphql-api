@@ -1,6 +1,7 @@
 ﻿using API.Dto;
+using API.Entity;
 using API.GraphQL.Branch.BranchInputs;
-using Entity;
+
 
 namespace API.Interfaces.Services
 {

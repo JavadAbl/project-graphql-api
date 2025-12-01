@@ -1,5 +1,5 @@
-﻿using Database.Configurations;
-using Entity;
+﻿using API.Entity;
+using Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database;

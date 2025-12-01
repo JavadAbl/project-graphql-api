@@ -1,4 +1,4 @@
-﻿namespace Entity;
+﻿namespace API.Entity;
 
 public class Branch
 {

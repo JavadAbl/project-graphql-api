@@ -1,20 +1,32 @@
-﻿using API.Dto;
+﻿
+
+using API.Dto;
+using API.Interfaces.Repositories;
 using API.Interfaces.Services;
+using API.Services;
+using UserClass = API.Entity.User;
+using BranchClass = API.Entity.Branch;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.User;
 
 
 [ExtendObjectType(typeof(Query))]
+
 public class UserQueryResolvers
 {
+    [UseProjection]
     public Task<IEnumerable<UserDto>> GetUsers([Service] IUserService userService)
     {
         return userService.GetMany();
     }
 
-    public async Task<UserDto?> GetUserById(int id, [Service] IUserService userService)
+    [UseProjection]
+    public async Task<UserDto?> GetUserById(int id, [Service] IUserService userService, [Service] IUserRepository rep)
     {
-        return await userService.GetById(id);
+
+        IQueryable<UserDto> userQuery = await userService.GetById(id);
+        return await userQuery.FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<UserDto>> GetUsersByBranch(int branchId, [Service] IUserService userService)
@@ -22,13 +34,13 @@ public class UserQueryResolvers
         return await userService.GetUsersByBranch(branchId);
     }
 
-    // Resolver for the `branch` field on UserDto
-    public async Task<BranchDto?> GetBranch(
+    [UseProjection]
+    public IEnumerable<BranchClass?> GetBranch(
         [Parent] UserDto user,
         [Service] IUserService userService,
         CancellationToken ct)
     {
-        return await userService.GetUserBranch(user.Id);
+        return userService.GetUserBranch(user.Id);
     }
 
 }

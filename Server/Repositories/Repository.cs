@@ -162,7 +162,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     #region Utility Methods
 
-    public virtual IQueryable<TEntity> GetQueryable() => _dbSet.AsQueryable();
+    public virtual IQueryable<TEntity> GetQueryable() => _dbSet.AsQueryable().AsNoTracking();
 
     public Task<bool> Exists(Expression<Func<TEntity, bool>> predicate) => _dbSet.AnyAsync(predicate);
 

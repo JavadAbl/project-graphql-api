@@ -21,7 +21,6 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
     public abstract Task<TDto> Update(int id, TUpdateInput input);
     public abstract Task<bool> Delete(int id);
 
-
     public async Task<TEntity> CheckExistsByIdAsync(int id)
     {
         // fetch the entity
@@ -45,10 +44,71 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
         return exists;
     }
 
+    private static T CreateInstance<T>() where T : class
+    {
+        // Try the normal public parameter‑less ctor first
+        var ctor = typeof(T).GetConstructor(Type.EmptyTypes);
+        if (ctor != null)
+            return (T)Activator.CreateInstance(typeof(T));
+
+        // No public ctor → use uninitialized object (no ctor runs)
+        return (T)FormatterServices.GetUninitializedObject(typeof(T));
+    }
+
+
+    /// <summary>
+    /// Builds an Expression tree for a projection from TEntity to TDto.
+    /// This allows for dynamic, reusable mapping that can be translated by EF Core.
+    /// </summary>
+    public static Expression<Func<TEntity, TDto>> ToProjectionExpression<TEntity, TDto>()
+        where TEntity : class
+        where TDto : class
+    {
+        // 1. Create the parameter for the input entity (e.g., "user")
+        ParameterExpression entityParameter = Expression.Parameter(typeof(TEntity), "e");
+
+        // 2. Get properties from both the source (Entity) and target (DTO)
+        var entityProperties = typeof(TEntity).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var dtoProperties = typeof(TDto).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                         .Where(p => p.CanWrite); // We can only set properties that have a setter
+
+        // 3. Create a list of member bindings (e.g., "Id = e.Id", "FirstName = e.FirstName")
+        List<MemberBinding> memberBindings = new List<MemberBinding>();
+
+        foreach (var dtoProp in dtoProperties)
+        {
+            // Find a matching property in the entity by name and type
+            var entityProp = entityProperties.FirstOrDefault(p =>
+                p.Name == dtoProp.Name &&
+                p.PropertyType == dtoProp.PropertyType &&
+                p.CanRead); // We can only read from properties that have a getter
+
+            if (entityProp != null)
+            {
+                // Create an expression to access the property on the entity (e.g., "e.Id")
+                MemberExpression propertyAccess = Expression.Property(entityParameter, entityProp);
+
+                // Create a binding that assigns the entity property value to the DTO property
+                MemberBinding binding = Expression.Bind(dtoProp, propertyAccess);
+                memberBindings.Add(binding);
+            }
+        }
+
+        // 4. Create the "new TDto(...)" part of the expression
+        NewExpression newExpression = Expression.New(typeof(TDto));
+
+        // 5. Combine the "new TDto(...)" with the member bindings to create "new TDto { ... }"
+        MemberInitExpression memberInitExpression = Expression.MemberInit(newExpression, memberBindings);
+
+        // 6. Create the final lambda expression: "e => new TDto { ... }"
+        Expression<Func<TEntity, TDto>> lambda = Expression.Lambda<Func<TEntity, TDto>>(memberInitExpression, entityParameter);
+
+        return lambda;
+    }
 
     public static TDto MapToDto<TEntity, TDto>(TEntity entity)
-       where TEntity : class
-       where TDto : class
+        where TEntity : class
+        where TDto : class
     {
         TDto dto = CreateInstance<TDto>();
 
@@ -69,17 +129,6 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
         }
 
         return dto;
-    }
-
-    private static T CreateInstance<T>() where T : class
-    {
-        // Try the normal public parameter‑less ctor first
-        var ctor = typeof(T).GetConstructor(Type.EmptyTypes);
-        if (ctor != null)
-            return (T)Activator.CreateInstance(typeof(T));
-
-        // No public ctor → use uninitialized object (no ctor runs)
-        return (T)FormatterServices.GetUninitializedObject(typeof(T));
     }
 
 }

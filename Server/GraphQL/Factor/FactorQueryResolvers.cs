@@ -1,4 +1,5 @@
 ﻿using API.Dto;
+using API.Interfaces.Services;
 
 namespace API.GraphQL.Factor;
 
