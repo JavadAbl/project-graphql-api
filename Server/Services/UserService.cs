@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using API.Dto;
+﻿using API.Dto;
 using API.Entity;
 using API.GraphQL.User.UserInputs;
 using API.Interfaces.Repositories;
@@ -10,19 +9,15 @@ namespace API.Services;
 
 public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUserInput, UpdateUserInput>(rep), IUserService
 {
-    public override async Task<IEnumerable<UserDto>> GetMany()
+    public override IQueryable<UserDto> GetMany()
     {
         return rep.GetQueryable().Select(ToProjectionExpression<User, UserDto>());
     }
 
-    public override async Task<IQueryable<UserDto>> GetById(int id)
+    public override IQueryable<UserDto> GetById(int id)
     {
         IQueryable<User> baseQuery = rep.GetQueryable().Where(u => u.Id == id);
         return baseQuery.Select(ToProjectionExpression<User, UserDto>());
-        /*  var user = await CheckExistsByIdAsync(id);
-         var userDto = MapToDto<User, UserDto>(user);
-
-         return userDto; */
     }
 
     public override async Task<UserDto> Create(CreateUserInput input)
@@ -72,14 +67,25 @@ public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUse
     }
 
 
-    public IEnumerable<Branch?> GetUserBranch(int userId)
+    public IQueryable<BranchDto?> GetUserBranch(int userId)
     {
-        return rep.GetQueryable().Select(u => u.Branch);
+        return rep.GetQueryable()
+            .Where(u => u.Id == userId)
+            .Select(u => u.Branch != null ? new BranchDto
+            {
+                Id = u.Branch.Id,
+                Name = u.Branch.Name,
+                Location = u.Branch.Location
+            } : null);
+        /*  var userDtoQ = rep.GetQueryable().Where(u => u.Id == userId).Select(ToProjectionExpression<User, UserDto>());
+          var branchDtoQ = userDtoQ.Select(e => e.Branch);
+          return branchDtoQ;*/
     }
 
-    private string HashPassword(string password)
+    public IQueryable<UserDto> GetUsersByBranch(int branchId)
     {
-        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
+        return rep.GetQueryable().Where(u => u.BranchId == branchId).Select(ToProjectionExpression<User, UserDto>());
+
     }
 
     public async Task<bool> SetBranch(int id, SetUserBranchInput input)
@@ -89,10 +95,9 @@ public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUse
         return await rep.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<UserDto>> GetUsersByBranch(int branchId)
+    private string HashPassword(string password)
     {
-        var users = await rep.FindManyAsync(e => e.BranchId == branchId);
-        return users.Select(e => MapToDto<User, UserDto>(e));
+        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
     }
 
 }

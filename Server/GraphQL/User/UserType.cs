@@ -15,7 +15,7 @@ public class UserType : ObjectType<UserDto>
          descriptor.Field(t => t.Branch); */
 
 
-        descriptor.Field(u => u.Branch).ResolveWith<UserQueryResolvers>(r => r.GetBranch(default!, default!, default));
+        descriptor.Field(u => u.Branch).ResolveWith<UserQueryResolvers>(r => r.GetUserBranch(default!, default!, default));
     }
 }
 

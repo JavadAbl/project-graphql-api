@@ -10,14 +10,15 @@ namespace API.Services
     public class AddressService(IAddressRepository rep, ICustomerService customerService)
         : Service<Address, AddressDto, CreateAddressInput, UpdateAddressInput>(rep), IAddressService
     {
-        public override async Task<IEnumerable<AddressDto>> GetMany() => rep.GetQueryable().Select(u => MapToDto<Address, AddressDto>(u));
-
-
-        public override async Task<AddressDto?> GetById(int id)
+        public override IQueryable<AddressDto> GetMany()
         {
-            var address = await CheckExistsByIdAsync(id);
-            var addressDto = MapToDto<Address, AddressDto>(address);
-            return addressDto;
+            return rep.GetQueryable().Select(ToProjectionExpression<Address, AddressDto>());
+        }
+
+        public override IQueryable<AddressDto> GetById(int id)
+        {
+            IQueryable<Address> baseQuery = rep.GetQueryable().Where(a => a.Id == id);
+            return baseQuery.Select(ToProjectionExpression<Address, AddressDto>());
         }
 
         public override async Task<AddressDto> Create(CreateAddressInput input)

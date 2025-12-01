@@ -1,5 +1,6 @@
 ﻿using API.Dto;
 using API.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Factor;
 
@@ -7,14 +8,17 @@ namespace API.GraphQL.Factor;
 [ExtendObjectType(typeof(Query))]
 public class FactorQueryResolvers
 {
-    public Task<IEnumerable<FactorDto>> GetFactores([Service] IFactorService factorService)
+    [UseProjection]
+    public Task<List<FactorDto>> GetFactores([Service] IFactorService factorService)
     {
-        return factorService.GetMany();
+        return factorService.GetMany().ToListAsync();
     }
 
-    public async Task<FactorDto?> GetFactorById(int id, [Service] IFactorService factorService)
+
+    [UseProjection]
+    public Task<FactorDto?> GetFactorById(int id, [Service] IFactorService factorService)
     {
-        return await factorService.GetById(id);
+        return factorService.GetById(id).FirstOrDefaultAsync();
     }
 
 }

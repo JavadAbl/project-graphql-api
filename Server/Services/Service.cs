@@ -15,8 +15,8 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
     where TCreateInput : class
     where TUpdateInput : class
 {
-    public abstract Task<IEnumerable<TDto>> GetMany();
-    public abstract Task<TDto?> GetById(int id);
+    public abstract IQueryable<TDto> GetMany();
+    public abstract IQueryable<TDto> GetById(int id);
     public abstract Task<TDto> Create(TCreateInput input);
     public abstract Task<TDto> Update(int id, TUpdateInput input);
     public abstract Task<bool> Delete(int id);
@@ -54,6 +54,7 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
         // No public ctor → use uninitialized object (no ctor runs)
         return (T)FormatterServices.GetUninitializedObject(typeof(T));
     }
+
 
 
     /// <summary>
@@ -102,6 +103,67 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
 
         // 6. Create the final lambda expression: "e => new TDto { ... }"
         Expression<Func<TEntity, TDto>> lambda = Expression.Lambda<Func<TEntity, TDto>>(memberInitExpression, entityParameter);
+
+        return lambda;
+    }
+
+
+
+    public static Expression<Func<TEntity?, TDto>> ToNullableProjectionExpression<TEntity, TDto>()
+    where TEntity : class
+    where TDto : class, new() // Constraint needed if you plan to use 'new TDto()'
+    {
+        // 1. Create the parameter for the input entity (now TEntity?)
+        ParameterExpression entityParameter = Expression.Parameter(typeof(TEntity), "e");
+
+        // --- The Core Projection Logic ---
+
+        // 2. Get properties from both the source (Entity) and target (DTO)
+        var entityProperties = typeof(TEntity).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var dtoProperties = typeof(TDto).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                        .Where(p => p.CanWrite);
+
+        // 3. Create a list of member bindings
+        List<MemberBinding> memberBindings = new List<MemberBinding>();
+
+        foreach (var dtoProp in dtoProperties)
+        {
+            var entityProp = entityProperties.FirstOrDefault(p =>
+                p.Name == dtoProp.Name &&
+                p.PropertyType == dtoProp.PropertyType &&
+                p.CanRead);
+
+            if (entityProp != null)
+            {
+                MemberExpression propertyAccess = Expression.Property(entityParameter, entityProp);
+                MemberBinding binding = Expression.Bind(dtoProp, propertyAccess);
+                memberBindings.Add(binding);
+            }
+        }
+
+        // 4. Create the "new TDto { ... }" part of the expression for the non-null case
+        NewExpression newExpression = Expression.New(typeof(TDto));
+        MemberInitExpression memberInitExpression = Expression.MemberInit(newExpression, memberBindings);
+
+        // --- Null Handling Logic ---
+
+        // Define the result for the null case (new TDto() or null)
+        // NOTE: For projection, it's safer to return a default DTO if TDto is non-nullable.
+        // If DTO is defined as 'class', you must ensure it has a public parameterless constructor.
+        ConstantExpression nullResult = Expression.Constant(new TDto(), typeof(TDto)); // Assuming TDto has a default constructor
+
+        // Define the condition: "e == null"
+        Expression nullCheck = Expression.Equal(entityParameter, Expression.Constant(null, typeof(TEntity)));
+
+        // Create the conditional expression: "e == null ? new TDto() : new TDto { ... }"
+        ConditionalExpression conditionalExpression = Expression.Condition(
+            test: nullCheck,
+            ifTrue: nullResult,
+            ifFalse: memberInitExpression
+        );
+
+        // 5. Create the final lambda expression: "e => (e == null ? new TDto() : new TDto { ... })"
+        Expression<Func<TEntity?, TDto>> lambda = Expression.Lambda<Func<TEntity?, TDto>>(conditionalExpression, entityParameter);
 
         return lambda;
     }

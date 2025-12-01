@@ -1,6 +1,7 @@
 ﻿using API.Dto;
 using API.GraphQL.Branch.BranchInputs;
 using API.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Branch;
 
@@ -8,14 +9,20 @@ namespace API.GraphQL.Branch;
 [ExtendObjectType(typeof(Query))]
 public class BranchQueryResolvers
 {
-    public Task<IEnumerable<BranchDto>> GetBranches([Service] IBranchService branchService)
+    [UseProjection]
+    public Task<List<BranchDto>> GetBranches([Service] IBranchService branchService)
     {
-        return branchService.GetMany();
+
+        return branchService.GetMany().ToListAsync();
     }
 
-    public async Task<BranchDto?> GetBranchById(int id, [Service] IBranchService branchService)
+
+
+    [UseProjection]
+    public Task<BranchDto?> GetBranchById(int id, [Service] IBranchService branchService)
     {
-        return await branchService.GetById(id);
+
+        return branchService.GetById(id).FirstOrDefaultAsync();
     }
 
     public async Task<BranchDto> CreateBranch(CreateBranchInput input, [Service] IBranchService branchService)

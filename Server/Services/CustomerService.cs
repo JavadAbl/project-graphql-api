@@ -9,17 +9,15 @@ namespace API.Services
     public class CustomerService(ICustomerRepository rep)
         : Service<Customer, CustomerDto, CreateCustomerInput, UpdateCustomerInput>(rep), ICustomerService
     {
-        public override async Task<IEnumerable<CustomerDto>> GetMany()
+        public override IQueryable<CustomerDto> GetMany()
         {
-            return rep.GetQueryable().Select(u => MapToDto<Customer, CustomerDto>(u));
+            return rep.GetQueryable().Select(ToProjectionExpression<Customer, CustomerDto>());
         }
 
-
-        public override async Task<CustomerDto?> GetById(int id)
+        public override IQueryable<CustomerDto> GetById(int id)
         {
-            var customer = await CheckExistsByIdAsync(id);
-            var customerDto = MapToDto<Customer, CustomerDto>(customer);
-            return customerDto;
+            IQueryable<Customer> baseQuery = rep.GetQueryable().Where(c => c.Id == id);
+            return baseQuery.Select(ToProjectionExpression<Customer, CustomerDto>());
         }
 
         public override async Task<CustomerDto> Create(CreateCustomerInput input)

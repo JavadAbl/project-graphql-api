@@ -1,5 +1,6 @@
 ﻿using API.Dto;
 using API.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Address;
 
@@ -7,14 +8,16 @@ namespace API.GraphQL.Address;
 [ExtendObjectType(typeof(Query))]
 public class FactorQueryResolvers
 {
-    public Task<IEnumerable<AddressDto>> GetAddresses([Service] IAddressService addressService)
+    [UseProjection]
+    public Task<List<AddressDto>> GetAddresses([Service] IAddressService addressService)
     {
-        return addressService.GetMany();
+        return addressService.GetMany().ToListAsync();
     }
 
-    public async Task<AddressDto?> GetAddressById(int id, [Service] IAddressService addressService)
+    [UseProjection]
+    public Task<AddressDto?> GetAddressById(int id, [Service] IAddressService addressService)
     {
-        return await addressService.GetById(id);
+        return addressService.GetById(id).FirstOrDefaultAsync();
     }
 
     public async Task<CustomerDto> GetCustomer([Parent] CustomerDto customer,

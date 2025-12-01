@@ -1,6 +1,7 @@
 ﻿using API.Dto;
 using API.GraphQL.Customer.CustomerInputs;
 using API.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Customer;
 
@@ -8,14 +9,17 @@ namespace API.GraphQL.Customer;
 [ExtendObjectType(typeof(Query))]
 public class CustomerQueryResolvers
 {
-    public Task<IEnumerable<CustomerDto>> GetCustomers([Service] ICustomerService customerService)
+    [UseProjection]
+    public Task<List<CustomerDto>> GetCustomers([Service] ICustomerService customerService)
     {
-        return customerService.GetMany();
+        return customerService.GetMany().ToListAsync();
     }
 
-    public async Task<CustomerDto?> GetCustomerById(int id, [Service] ICustomerService customerService)
+
+    [UseProjection]
+    public Task<CustomerDto?> GetCustomerById(int id, [Service] ICustomerService customerService)
     {
-        return await customerService.GetById(id);
+        return customerService.GetById(id).FirstOrDefaultAsync();
     }
 
     public async Task<CustomerDto> CreateCustomer(CreateCustomerInput input, [Service] ICustomerService customerService)
