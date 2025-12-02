@@ -7,7 +7,10 @@ namespace API.GraphQL.Customer;
 
 public class CustomerQueryResolvers
 {
+    [UseOffsetPaging()]
     [UseProjection]
+    [UseFiltering]
+    [UseSorting]
     public Task<List<CustomerDto>> GetCustomers([Service] ICustomerService customerService)
     {
         return customerService.GetMany().ToListAsync();

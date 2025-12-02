@@ -1,4 +1,6 @@
-﻿namespace API.Dto;
+﻿using API.Enums;
+
+namespace API.Dto;
 
 public class UserDto
 {
@@ -7,7 +9,7 @@ public class UserDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Username { get; set; }
-    public string? Role { get; set; }
+    public UserRoles? Role { get; set; }
     public bool IsActive { get; set; }
     public BranchDto? Branch { get; set; }
 }

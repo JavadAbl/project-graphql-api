@@ -1,4 +1,5 @@
 ﻿using API.Entity;
+using API.Enums;
 using Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,7 @@ public class AppDbContext(DbContextOptions op) : DbContext(op)
                  // IMPORTANT: In a real app, generate a proper password hash.
                  // This is just a placeholder.
                  PasswordHash = "some_secure_hash_for_password123",
-                 Role = "Admin",
+                 Role = UserRoles.Admin,
                  BranchId = 1
              },
              new User
@@ -48,7 +49,7 @@ public class AppDbContext(DbContextOptions op) : DbContext(op)
                  LastName = "User",
                  Username = "user@example.com",
                  PasswordHash = "some_secure_hash_for_password456",
-                 Role = "User",
+                 Role = UserRoles.Operator,
                  BranchId = 2
              }
          );

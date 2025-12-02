@@ -1,4 +1,6 @@
-﻿namespace API.Entity;
+﻿using API.Enums;
+
+namespace API.Entity;
 
 public class User
 {
@@ -7,7 +9,7 @@ public class User
     public required string LastName { get; set; }
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }
-    public required string Role { get; set; }
+    public required UserRoles Role { get; set; }
     public bool IsActive { get; set; } = false;
 
 

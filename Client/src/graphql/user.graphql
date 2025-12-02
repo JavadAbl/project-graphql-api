@@ -1,8 +1,9 @@
 query User_Query_GetUsers {
+usersQuery{
   users {
     id
     username
-    firstName
+    firstName     
     lastName
     role
     isActive
@@ -12,6 +13,8 @@ query User_Query_GetUsers {
     }
   }
 }
+}
+
 
 mutation User_Mutation_CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {

@@ -8,13 +8,15 @@ namespace API.GraphQL.Branch;
 
 public class BranchQueryResolvers
 {
+    [UseOffsetPaging()]
     [UseProjection]
+    [UseFiltering]
+    [UseSorting]
     public Task<List<BranchDto>> GetBranches([Service] IBranchService branchService)
     {
 
         return branchService.GetMany().ToListAsync();
     }
-
 
 
     [UseProjection]

@@ -1,12 +1,8 @@
 ﻿using API.Dto;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
-
-
 
 namespace API.GraphQL.User;
-
 
 //[ExtendObjectType(typeof(Query))]
 public class UserQueryResolvers

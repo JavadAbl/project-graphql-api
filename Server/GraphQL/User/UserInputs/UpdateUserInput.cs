@@ -1,4 +1,6 @@
-﻿namespace API.GraphQL.User.UserInputs;
+﻿using API.Enums;
+
+namespace API.GraphQL.User.UserInputs;
 
 public record UpdateUserInput
 {
@@ -10,7 +12,7 @@ public record UpdateUserInput
 
     public string? Password { get; init; }
 
-    public string? Role { get; init; }
+    public UserRoles? Role { get; init; }
 
 }
 

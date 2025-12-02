@@ -7,7 +7,10 @@ namespace API.GraphQL.Factor;
 
 public class FactorQueryResolvers
 {
+    [UseOffsetPaging()]
     [UseProjection]
+    [UseFiltering]
+    [UseSorting]
     public Task<List<FactorDto>> GetFactores([Service] IFactorService factorService)
     {
         return factorService.GetMany().ToListAsync();

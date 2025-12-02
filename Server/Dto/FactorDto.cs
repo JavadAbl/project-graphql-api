@@ -2,6 +2,7 @@
 
 public class FactorDto
 {
+    [IsProjected]
     public int Id { get; set; }
     public DateTime FactorDate { get; set; }
     public decimal TotalAmount { get; set; }
