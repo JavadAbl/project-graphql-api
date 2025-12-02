@@ -69,17 +69,12 @@ public class UserService(IUserRepository rep) : Service<User, UserDto, CreateUse
 
     public IQueryable<BranchDto?> GetUserBranch(int userId)
     {
-        return rep.GetQueryable()
-            .Where(u => u.Id == userId)
-            .Select(u => u.Branch != null ? new BranchDto
-            {
-                Id = u.Branch.Id,
-                Name = u.Branch.Name,
-                Location = u.Branch.Location
-            } : null);
-        /*  var userDtoQ = rep.GetQueryable().Where(u => u.Id == userId).Select(ToProjectionExpression<User, UserDto>());
-          var branchDtoQ = userDtoQ.Select(e => e.Branch);
-          return branchDtoQ;*/
+        var branchQ = rep.GetQueryable()
+              .Where(u => u.Id == userId)
+              .Select(u => u.Branch);
+
+        var branchDtoQ = branchQ.Select(ToProjectionExpression<Branch, BranchDto>());
+        return branchDtoQ;
     }
 
     public IQueryable<UserDto> GetUsersByBranch(int branchId)

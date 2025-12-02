@@ -4,7 +4,6 @@ using API.Interfaces.Services;
 
 namespace API.GraphQL.Customer;
 
-[ExtendObjectType(typeof(Mutation))]
 public class CustomerMutationResolvers
 {
   public async Task<CustomerDto> CreateCustomer(

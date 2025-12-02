@@ -8,7 +8,7 @@ public interface IUserService : IService<User, UserDto, CreateUserInput, UpdateU
 {
 
     Task<bool> SetBranch(int id, SetUserBranchInput input);
-    IQueryable<BranchDto> GetUserBranch(int userId);
+    IQueryable<BranchDto?> GetUserBranch(int userId);
     IQueryable<UserDto> GetUsersByBranch(int branchId);
 
 }

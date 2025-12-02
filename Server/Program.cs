@@ -2,6 +2,7 @@ using API.GraphQL;
 using API.GraphQL.Address;
 using API.GraphQL.Branch;
 using API.GraphQL.Customer;
+using API.GraphQL.Factor;
 using API.GraphQL.User;
 using API.Interfaces.Repositories;
 using API.Interfaces.Services;
@@ -34,6 +35,16 @@ builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .AddProjections()
+    .AddFiltering()
+    .AddSorting()
+    .ModifyPagingOptions(options =>
+    {
+        options.MaxPageSize = 100;           // Maximum items per page
+        options.DefaultPageSize = 10;        // Default page size when not specified
+        options.IncludeTotalCount = true;   // Whether to include total count
+        options.AllowBackwardPagination = true; // Allow "last" and "before" arguments
+        options.RequirePagingBoundaries = false; // Whether first/last are required
+    })
     //User
     .AddType<UserQueryResolvers>()
     .AddType<UserMutationResolvers>()
@@ -42,14 +53,18 @@ builder.Services.AddGraphQLServer()
     .AddType<BranchQueryResolvers>()
     .AddType<BranchMutationResolvers>()
     .AddType<BranchType>()
-    //Address
+    //Factor
     .AddType<FactorQueryResolvers>()
     .AddType<FactorMutationResolvers>()
     .AddType<FactorType>()
     //Customer
     .AddType<CustomerQueryResolvers>()
     .AddType<CustomerMutationResolvers>()
-    .AddType<CustomerType>();
+    .AddType<CustomerType>()
+    //Address
+    .AddType<AddressQueryResolvers>()
+    .AddType<AddressMutationResolvers>()
+    .AddType<AddressType>();
 
 
 //Repositories------------------------------------------------------

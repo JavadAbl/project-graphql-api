@@ -4,26 +4,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Address;
 
-
-[ExtendObjectType(typeof(Query))]
-public class FactorQueryResolvers
+public class AddressQueryResolvers
 {
+    [UseOffsetPaging]
     [UseProjection]
-    public Task<List<AddressDto>> GetAddresses([Service] IAddressService addressService)
+    [UseFiltering]
+    [UseSorting]
+    public IQueryable<AddressDto> GetAddresses([Service] IAddressService addressService)
     {
-        return addressService.GetMany().ToListAsync();
+        return addressService.GetMany();
     }
 
+    [UseFirstOrDefault]
     [UseProjection]
-    public Task<AddressDto?> GetAddressById(int id, [Service] IAddressService addressService)
+    public IQueryable<AddressDto?> GetAddressById(int id, [Service] IAddressService addressService)
     {
-        return addressService.GetById(id).FirstOrDefaultAsync();
+        return addressService.GetById(id);
     }
 
-    public async Task<CustomerDto> GetCustomer([Parent] CustomerDto customer,
-     [Service] IAddressService addressService)
+    [UseFirstOrDefault]
+    [UseProjection]
+    public IQueryable<CustomerDto> GetCustomer([Parent] CustomerDto customer,
+       [Service] IAddressService addressService)
     {
-        return await addressService.GetCustomer(customer.Id);
+        return addressService.GetAddressCustomer(customer.Id);
     }
 
 }

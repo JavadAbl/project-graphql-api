@@ -6,6 +6,6 @@ namespace API.Interfaces.Services;
 
 public interface IAddressService : IService<Address, AddressDto, CreateAddressInput, UpdateAddressInput>
 {
-    Task<CustomerDto> GetCustomer(int AddressId);
+    IQueryable<CustomerDto> GetAddressCustomer(int AddressId);
 }
 

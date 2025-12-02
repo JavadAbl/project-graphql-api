@@ -4,7 +4,6 @@ using API.Interfaces.Services;
 
 namespace API.GraphQL.Factor;
 
-[ExtendObjectType(typeof(Mutation))]
 public class FactorMutationResolvers
 {
   public async Task<FactorDto> CreateFactor(

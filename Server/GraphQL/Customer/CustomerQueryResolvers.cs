@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Customer;
 
-
-[ExtendObjectType(typeof(Query))]
 public class CustomerQueryResolvers
 {
     [UseProjection]

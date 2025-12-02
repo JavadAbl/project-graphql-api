@@ -4,7 +4,7 @@ using API.Interfaces.Services;
 
 namespace API.GraphQL.User;
 
-[ExtendObjectType(typeof(Mutation))]
+// [ExtendObjectType(typeof(Mutation))]
 public class UserMutationResolvers
 {
   public async Task<UserDto> CreateUser(

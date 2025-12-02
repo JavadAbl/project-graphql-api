@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 namespace API.GraphQL.Branch;
 
 
-[ExtendObjectType(typeof(Query))]
 public class BranchQueryResolvers
 {
     [UseProjection]

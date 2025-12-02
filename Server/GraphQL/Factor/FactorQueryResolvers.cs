@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace API.GraphQL.Factor;
 
 
-[ExtendObjectType(typeof(Query))]
 public class FactorQueryResolvers
 {
     [UseProjection]
