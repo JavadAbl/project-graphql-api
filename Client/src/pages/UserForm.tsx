@@ -4,37 +4,52 @@ import { ArrowRight, Save, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { userService } from "../data/userService";
 import { mockBranches } from "../data/mockData";
+import {
+  Branch_Query_GetBranchesDocument,
+  User_Query_GetUserByIdDocument,
+  UserRoles,
+} from "../gql/graphql";
+import { useLazyQuery, useQuery } from "@apollo/client/react";
 
 export const UserForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = Boolean(id);
 
+  //Data---------------------------------------------------------
+  const { data: branchesData } = useQuery(Branch_Query_GetBranchesDocument);
+  const branches = branchesData?.branchesQuery.branches?.items;
+
+  const [fetchUser] = useLazyQuery(User_Query_GetUserByIdDocument);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     username: "",
     password: "",
-    role: "Operator" as "Manager" | "Operator",
-    branchId: "",
+    role: UserRoles.Operator,
+    branchId: 0,
     isActive: true,
   });
 
   useEffect(() => {
-    if (id) {
-      const user = userService.getById(Number(id));
-      if (user) {
-        setFormData({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.username,
-          password: "",
-          role: user.role,
-          branchId: user.branchId?.toString() || "",
-          isActive: user.isActive,
-        });
+    (async () => {
+      if (id) {
+        const userRes = await fetchUser({ variables: { id: Number(id) } });
+        const user = userRes.data?.usersQuery?.userById;
+        if (user) {
+          setFormData({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            password: "",
+            role: user.role,
+            branchId: user.branch!.id,
+            isActive: user.isActive,
+          });
+        }
       }
-    }
+    })();
   }, [id]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -93,17 +108,17 @@ export const UserForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={() => navigate("/users")}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
         >
-          <ArrowRight className="w-6 h-6 text-gray-600" />
+          <ArrowRight className="h-6 text-gray-600 w-6" />
         </button>
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2">
+          <h1 className="mb-2 text-2xl text-gray-900">
             {isEdit ? "ویرایش کاربر" : "افزودن کاربر جدید"}
           </h1>
           <p className="text-gray-600">اطلاعات کاربر را وارد کنید</p>
@@ -112,31 +127,31 @@ export const UserForm: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* User Info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <UserCog className="w-6 h-6 text-blue-600" />
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
+          <div className="flex gap-3 items-center mb-6">
+            <div className="bg-blue-100 flex h-12 items-center justify-center rounded-full w-12">
+              <UserCog className="h-6 text-blue-600 w-6" />
             </div>
-            <h2 className="text-lg text-gray-900">اطلاعات کاربری</h2>
+            <h2 className="text-gray-900 text-lg">اطلاعات کاربری</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
             <div>
-              <label className="block text-sm text-gray-700 mb-2">نام *</label>
+              <label className="block mb-2 text-gray-700 text-sm">نام *</label>
               <input
                 type="text"
                 value={formData.firstName}
                 onChange={(e) =>
                   setFormData({ ...formData, firstName: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="نام را وارد کنید"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 نام خانوادگی *
               </label>
               <input
@@ -145,14 +160,14 @@ export const UserForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, lastName: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="نام خانوادگی را وارد کنید"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 نام کاربری *
               </label>
               <input
@@ -161,7 +176,7 @@ export const UserForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, username: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="username"
                 dir="ltr"
                 required
@@ -170,7 +185,7 @@ export const UserForm: React.FC = () => {
 
             {!isEdit && (
               <div>
-                <label className="block text-sm text-gray-700 mb-2">
+                <label className="block mb-2 text-gray-700 text-sm">
                   رمز عبور *
                 </label>
                 <input
@@ -179,7 +194,7 @@ export const UserForm: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                   placeholder="حداقل ۶ کاراکتر"
                   dir="ltr"
                   required
@@ -188,7 +203,7 @@ export const UserForm: React.FC = () => {
             )}
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">نقش *</label>
+              <label className="block mb-2 text-gray-700 text-sm">نقش *</label>
               <select
                 value={formData.role}
                 onChange={(e) =>
@@ -197,7 +212,7 @@ export const UserForm: React.FC = () => {
                     role: e.target.value as "Manager" | "Operator",
                   })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
                 <option value="Operator">اپراتور</option>
@@ -206,13 +221,13 @@ export const UserForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">شعبه</label>
+              <label className="block mb-2 text-gray-700 text-sm">شعبه</label>
               <select
                 value={formData.branchId}
                 onChange={(e) =>
                   setFormData({ ...formData, branchId: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
               >
                 <option value="">بدون شعبه</option>
                 {mockBranches.map((branch) => (
@@ -225,14 +240,14 @@ export const UserForm: React.FC = () => {
 
             {isEdit && (
               <div className="md:col-span-2">
-                <label className="flex items-center gap-3 cursor-pointer">
+                <label className="cursor-pointer flex gap-3 items-center">
                   <input
                     type="checkbox"
                     checked={formData.isActive}
                     onChange={(e) =>
                       setFormData({ ...formData, isActive: e.target.checked })
                     }
-                    className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                    className="border-gray-300 focus:ring-2 focus:ring-blue-500 h-5 rounded text-blue-600 w-5"
                   />
                   <span className="text-gray-700">کاربر فعال است</span>
                 </label>
@@ -241,7 +256,7 @@ export const UserForm: React.FC = () => {
           </div>
 
           {isEdit && (
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="bg-yellow-50 border border-yellow-200 mt-6 p-4 rounded-lg">
               <p className="text-sm text-yellow-800">
                 <strong>توجه:</strong> برای تغییر رمز عبور این کاربر، از صفحه
                 لیست کاربران استفاده کنید.
@@ -251,18 +266,18 @@ export const UserForm: React.FC = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-6 py-3 rounded-lg text-white transition-colors"
           >
-            <Save className="w-5 h-5" />
+            <Save className="h-5 w-5" />
             <span>{isEdit ? "ذخیره تغییرات" : "ذخیره کاربر"}</span>
           </button>
           <button
             type="button"
             onClick={() => navigate("/users")}
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-700 transition-colors"
           >
             انصراف
           </button>

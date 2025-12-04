@@ -28,24 +28,24 @@ export const Login: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4"
+      className="bg-gradient-to-br flex from-blue-50 items-center justify-center min-h-screen p-4 to-indigo-100"
       dir="rtl"
     >
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="max-w-md w-full">
+        <div className="bg-white p-8 rounded-2xl shadow-xl">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
-              <LogIn className="w-8 h-8 text-white" />
+          <div className="mb-8 text-center">
+            <div className="bg-blue-600 h-16 inline-flex items-center justify-center mb-4 rounded-full w-16">
+              <LogIn className="h-8 text-white w-8" />
             </div>
-            <h1 className="text-2xl text-gray-900 mb-2">سیستم مدیریت فاکتور</h1>
+            <h1 className="mb-2 text-2xl text-gray-900">سیستم مدیریت فاکتور</h1>
             <p className="text-gray-600">برای ورود اطلاعات خود را وارد کنید</p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3 text-red-800">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <div className="bg-red-50 border border-red-200 flex gap-3 items-center mb-6 p-4 rounded-lg text-red-800">
+              <AlertCircle className="flex-shrink-0 h-5 w-5" />
               <p className="text-sm">{error}</p>
             </div>
           )}
@@ -55,7 +55,7 @@ export const Login: React.FC = () => {
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm text-gray-700 mb-2"
+                className="block mb-2 text-gray-700 text-sm"
               >
                 نام کاربری
               </label>
@@ -64,7 +64,7 @@ export const Login: React.FC = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="نام کاربری خود را وارد کنید"
                 required
               />
@@ -73,7 +73,7 @@ export const Login: React.FC = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm text-gray-700 mb-2"
+                className="block mb-2 text-gray-700 text-sm"
               >
                 رمز عبور
               </label>
@@ -82,7 +82,7 @@ export const Login: React.FC = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="رمز عبور خود را وارد کنید"
                 required
               />
@@ -91,16 +91,16 @@ export const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-blue-700 px-4 py-3 rounded-lg text-white transition-colors w-full"
             >
               {loading ? "در حال ورود..." : "ورود"}
             </button>
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-600 mb-3">اطلاعات ورود نمایشی:</p>
-            <div className="space-y-2 text-xs text-gray-700 bg-gray-50 p-4 rounded-lg">
+          <div className="border-gray-200 border-t mt-8 pt-6">
+            <p className="mb-3 text-gray-600 text-sm">اطلاعات ورود نمایشی:</p>
+            <div className="bg-gray-50 p-4 rounded-lg space-y-2 text-gray-700 text-xs">
               <div>
                 <span className="inline-block w-20">مدیر:</span>
                 <span className="text-blue-600">manager / manager123</span>

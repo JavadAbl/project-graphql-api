@@ -97,33 +97,33 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Welcome Header */}
       <div>
-        <h1 className="text-2xl text-gray-900 mb-2">
+        <h1 className="mb-1 text-2xl text-gray-900">
           خوش آمدید، {user?.firstName} {user?.lastName}
         </h1>
         <p className="text-gray-600">خلاصه‌ای از فعالیت‌های امروز</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="gap-6 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2">
         {stats.map(
           (stat) =>
             stat.show && (
               <div
                 key={stat.title}
-                className="bg-white rounded-xl p-6 border border-gray-200"
+                className="bg-white border border-gray-200 p-6 rounded-xl"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
+                    <p className="mb-1 text-gray-600 text-sm">{stat.title}</p>
                     <p className="text-2xl text-gray-900">{stat.value}</p>
                   </div>
                   <div
                     className={`${stat.color} w-12 h-12 rounded-lg flex items-center justify-center`}
                   >
-                    <stat.icon className="w-6 h-6 text-white" />
+                    <stat.icon className="h-6 text-white w-6" />
                   </div>
                 </div>
               </div>
@@ -133,8 +133,8 @@ export const Dashboard: React.FC = () => {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-lg text-gray-900 mb-4">دسترسی سریع</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="mb-4 text-gray-900 text-lg">دسترسی سریع</h2>
+        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2">
           {quickActions.map(
             (action) =>
               action.show && (
@@ -143,13 +143,13 @@ export const Dashboard: React.FC = () => {
                   to={action.link}
                   className={`${action.color} p-6 rounded-xl border border-gray-200 transition-colors`}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex gap-4 items-start">
                     <div className="flex-shrink-0">
-                      <action.icon className="w-8 h-8" />
+                      <action.icon className="h-8 w-8" />
                     </div>
                     <div>
                       <h3 className="mb-1">{action.title}</h3>
-                      <p className="text-sm opacity-80">{action.description}</p>
+                      <p className="opacity-80 text-sm">{action.description}</p>
                     </div>
                   </div>
                 </Link>
@@ -159,17 +159,17 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Recent Factors & Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="gap-6 grid grid-cols-1 lg:grid-cols-3">
         {/* Recent Factors */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white border border-gray-200 lg:col-span-2 p-6 rounded-xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg text-gray-900">آخرین فاکتورها</h2>
+            <h2 className="text-gray-900 text-lg">آخرین فاکتورها</h2>
             <Link
               to="/factors"
-              className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+              className="flex gap-1 hover:text-blue-700 items-center text-blue-600 text-sm"
             >
               مشاهده همه
-              <ArrowUpRight className="w-4 h-4" />
+              <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="space-y-3">
@@ -177,10 +177,10 @@ export const Dashboard: React.FC = () => {
               <Link
                 key={factor.id}
                 to={`/factors/${factor.id}`}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                className="bg-gray-50 flex hover:bg-gray-100 items-center justify-between p-4 rounded-lg transition-colors"
               >
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
+                  <div className="flex gap-3 items-center mb-1">
                     <span className="text-gray-900">فاکتور #{factor.id}</span>
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${getStatusColor(
@@ -190,7 +190,7 @@ export const Dashboard: React.FC = () => {
                       {factor.status}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-gray-600 text-sm">
                     {new Date(factor.factorDate).toLocaleDateString("fa-IR")}
                   </p>
                 </div>
@@ -208,19 +208,19 @@ export const Dashboard: React.FC = () => {
         <div className="space-y-6">
           {/* Pending Alert */}
           {pendingFactors > 0 && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-5 h-5 text-white" />
+            <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-xl">
+              <div className="flex gap-3 items-start">
+                <div className="bg-yellow-500 flex flex-shrink-0 h-10 items-center justify-center rounded-lg w-10">
+                  <TrendingUp className="h-5 text-white w-5" />
                 </div>
                 <div>
-                  <h3 className="text-yellow-900 mb-1">نیاز به بررسی</h3>
+                  <h3 className="mb-1 text-yellow-900">نیاز به بررسی</h3>
                   <p className="text-sm text-yellow-700">
                     {pendingFactors} فاکتور در انتظار تایید است
                   </p>
                   <Link
                     to="/factors"
-                    className="text-sm text-yellow-900 hover:underline mt-2 inline-block"
+                    className="hover:underline inline-block mt-2 text-sm text-yellow-900"
                   >
                     مشاهده فاکتورها
                   </Link>
@@ -230,14 +230,14 @@ export const Dashboard: React.FC = () => {
           )}
 
           {/* Summary Card */}
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+          <div className="bg-gradient-to-br from-blue-500 p-6 rounded-xl text-white to-blue-600">
             <h3 className="mb-4">خلاصه عملکرد</h3>
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <span className="text-blue-100">کل مشتریان</span>
                 <span className="text-xl">{mockCustomers.length}</span>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <span className="text-blue-100">فاکتورهای امروز</span>
                 <span className="text-xl">
                   {
@@ -249,7 +249,7 @@ export const Dashboard: React.FC = () => {
                   }
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-3 border-t border-blue-400">
+              <div className="border-blue-400 border-t flex items-center justify-between pt-3">
                 <span className="text-blue-100">فروش امروز</span>
                 <span className="text-xl">0 تومان</span>
               </div>

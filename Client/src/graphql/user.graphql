@@ -1,31 +1,51 @@
 query User_Query_GetUsers {
-usersQuery{
-  users {
-    id
-    username
-    firstName     
-    lastName
-    role
-    isActive
-    branch {
-      id
-      name
+  usersQuery {
+    users {
+      items {
+        id
+        username
+        firstName
+        lastName
+        role
+        isActive
+        branch {
+          id
+          name
+        }
+      }
     }
   }
 }
+
+query User_Query_GetUserById($id: Int!) {
+  usersQuery {
+    userById(id: $id) {
+      id
+      username
+      firstName
+      lastName
+      role
+      isActive
+      branch {
+        id
+        name
+      }
+    }
+  }
 }
 
-
 mutation User_Mutation_CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    id
-    username
-    firstName
-    lastName
-    role
-    branch {
+  usersMutation {
+    createUser(input: $input) {
       id
-      name
+      username
+      firstName
+      lastName
+      role
+      branch {
+        id
+        name
+      }
     }
   }
 }

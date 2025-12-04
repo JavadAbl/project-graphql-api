@@ -51,6 +51,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         // This configures the one-to-many relationship.
         builder.HasMany(p => p.FactorOrders)
                .WithOne(e => e.Product)
-               .HasForeignKey(f => f.ProductID);
+               .HasForeignKey(f => f.ProductId);
     }
 }

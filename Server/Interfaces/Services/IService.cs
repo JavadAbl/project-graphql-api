@@ -7,7 +7,7 @@ public interface IService<TEntity, TDto, TCreateInput, TUpdateInput>
     where TUpdateInput : class
 {
     public IQueryable<TDto> GetMany();
-    public IQueryable<TDto> GetById(int id);
+    public IQueryable<TDto?> GetById(int id);
     public Task<TDto> Create(TCreateInput input);
     public Task<TDto> Update(int id, TUpdateInput input);
     public Task<bool> Delete(int id);

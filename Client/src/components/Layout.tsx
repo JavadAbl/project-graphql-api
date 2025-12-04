@@ -38,7 +38,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex" dir="rtl">
+    <div className="bg-gray-50 flex min-h-screen" dir="rtl">
       {/* Sidebar */}
       <aside
         className={`${
@@ -47,30 +47,30 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         <div className="flex flex-col h-full">
           {/* Logo & Close Button */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="border-b border-gray-200 flex items-center justify-between p-4">
             <div>
-              <h1 className="text-xl text-blue-600">سیستم فاکتور</h1>
-              <p className="text-sm text-gray-500 mt-1">مدیریت فروش</p>
+              <h1 className="text-blue-600 text-lg">سیستم فاکتور</h1>
+              <p className="mt-0.5 text-gray-500 text-xs">مدیریت فروش</p>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
+              className="hover:text-gray-700 lg:hidden text-gray-500"
             >
-              <X className="w-6 h-6" />
+              <X className="h-6 w-6" />
             </button>
           </div>
 
           {/* User Info */}
-          <div className="p-4 border-b border-gray-200 bg-gray-50">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
+          <div className="bg-gray-50 border-b border-gray-200 p-3">
+            <div className="flex gap-3 items-center">
+              <div className="bg-blue-600 flex h-10 items-center justify-center rounded-full text-white w-10">
                 {user?.firstName[0]}
               </div>
               <div>
                 <p className="text-sm">
                   {user?.firstName} {user?.lastName}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-gray-500 text-xs">
                   {user?.role === "Manager" ? "مدیر" : "اپراتور"}
                 </p>
               </div>
@@ -78,8 +78,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 overflow-y-auto">
-            <ul className="space-y-2">
+          <nav className="flex-1 overflow-y-auto p-3">
+            <ul className="space-y-1">
               {menuItems.map(
                 (item) =>
                   item.show && (
@@ -87,13 +87,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                       <Link
                         to={item.path}
                         onClick={() => setSidebarOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                           location.pathname === item.path
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
-                        <item.icon className="w-5 h-5" />
+                        <item.icon className="h-5 w-5" />
                         <span>{item.label}</span>
                       </Link>
                     </li>
@@ -103,12 +103,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </nav>
 
           {/* Logout */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="border-gray-200 border-t p-3">
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 w-full transition-colors"
+              className="flex gap-3 hover:bg-red-50 items-center px-3 py-2.5 rounded-lg text-red-600 transition-colors w-full"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="h-5 w-5" />
               <span>خروج</span>
             </button>
           </div>
@@ -118,24 +118,24 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="bg-black bg-opacity-50 fixed inset-0 lg:hidden z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex flex-1 flex-col min-w-0">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 p-4 lg:p-6">
-          <div className="flex items-center gap-4">
+        <header className="bg-white border-b border-gray-200 lg:px-6 lg:py-4 px-4 py-3">
+          <div className="flex gap-4 items-center">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-gray-600 hover:text-gray-900"
+              className="hover:text-gray-900 lg:hidden text-gray-600"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6" />
             </button>
             <div className="flex-1">
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 {new Date().toLocaleDateString("fa-IR", {
                   weekday: "long",
                   year: "numeric",
@@ -148,7 +148,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-6 overflow-y-auto">{children}</main>
+        <main className="flex-1 lg:p-5 overflow-y-auto p-4">{children}</main>
       </div>
     </div>
   );

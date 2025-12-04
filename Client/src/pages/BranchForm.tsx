@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRight, Save } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 export const BranchForm: React.FC = () => {
   const navigate = useNavigate();
@@ -19,28 +19,28 @@ export const BranchForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={() => navigate("/branches")}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
         >
-          <ArrowRight className="w-6 h-6 text-gray-600" />
+          <ArrowRight className="h-6 text-gray-600 w-6" />
         </button>
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2">افزودن شعبه جدید</h1>
+          <h1 className="mb-2 text-2xl text-gray-900">افزودن شعبه جدید</h1>
           <p className="text-gray-600">اطلاعات شعبه را وارد کنید</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Branch Info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg text-gray-900 mb-4">اطلاعات شعبه</h2>
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
+          <h2 className="mb-4 text-gray-900 text-lg">اطلاعات شعبه</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 نام شعبه *
               </label>
               <input
@@ -49,14 +49,14 @@ export const BranchForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="مثال: شعبه مرکزی"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 شماره تلفن *
               </label>
               <input
@@ -65,7 +65,7 @@ export const BranchForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="021-12345678"
                 dir="ltr"
                 required
@@ -73,13 +73,13 @@ export const BranchForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">آدرس *</label>
+              <label className="block mb-2 text-gray-700 text-sm">آدرس *</label>
               <textarea
                 value={formData.location}
                 onChange={(e) =>
                   setFormData({ ...formData, location: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 resize-none rounded-lg w-full"
                 placeholder="آدرس کامل شعبه را وارد کنید"
                 rows={3}
                 required
@@ -89,18 +89,18 @@ export const BranchForm: React.FC = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-6 py-3 rounded-lg text-white transition-colors"
           >
-            <Save className="w-5 h-5" />
+            <Save className="h-5 w-5" />
             <span>ذخیره شعبه</span>
           </button>
           <button
             type="button"
             onClick={() => navigate("/branches")}
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-700 transition-colors"
           >
             انصراف
           </button>

@@ -16,7 +16,7 @@ public abstract class Service<TEntity, TDto, TCreateInput, TUpdateInput>(IReposi
     where TUpdateInput : class
 {
     public abstract IQueryable<TDto> GetMany();
-    public abstract IQueryable<TDto> GetById(int id);
+    public abstract IQueryable<TDto?> GetById(int id);
     public abstract Task<TDto> Create(TCreateInput input);
     public abstract Task<TDto> Update(int id, TUpdateInput input);
     public abstract Task<bool> Delete(int id);

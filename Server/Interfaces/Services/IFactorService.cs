@@ -2,9 +2,9 @@
 using API.Entity;
 using API.GraphQL.Factor.FactorInputs;
 
-namespace API.Interfaces.Services
+namespace API.Interfaces.Services;
+
+public interface IFactorService : IService<Factor, FactorDto, CreateFactorInput, object>
 {
-    public interface IFactorService : IService<Factor, FactorDto, CreateFactorInput, object?>
-    {
-    }
 }
+

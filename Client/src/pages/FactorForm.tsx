@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRight, Save, Plus, Trash2, ShoppingCart } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import {
   mockCustomers,
   mockProducts,
@@ -89,28 +89,28 @@ export const FactorForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-4">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={() => navigate("/factors")}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
         >
-          <ArrowRight className="w-6 h-6 text-gray-600" />
+          <ArrowRight className="h-6 text-gray-600 w-6" />
         </button>
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2">ثبت فاکتور جدید</h1>
+          <h1 className="mb-2 text-2xl text-gray-900">ثبت فاکتور جدید</h1>
           <p className="text-gray-600">اطلاعات فاکتور و محصولات را وارد کنید</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Factor Info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg text-gray-900 mb-4">اطلاعات فاکتور</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
+          <h2 className="mb-4 text-gray-900 text-lg">اطلاعات فاکتور</h2>
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 مشتری *
               </label>
               <select
@@ -119,7 +119,7 @@ export const FactorForm: React.FC = () => {
                   setSelectedCustomerId(e.target.value);
                   setSelectedAddressId("");
                 }}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
                 <option value="">انتخاب مشتری</option>
@@ -132,11 +132,11 @@ export const FactorForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">شعبه *</label>
+              <label className="block mb-2 text-gray-700 text-sm">شعبه *</label>
               <select
                 value={selectedBranchId}
                 onChange={(e) => setSelectedBranchId(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
                 <option value="">انتخاب شعبه</option>
@@ -149,13 +149,13 @@ export const FactorForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 آدرس تحویل
               </label>
               <select
                 value={selectedAddressId}
                 onChange={(e) => setSelectedAddressId(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 disabled={!selectedCustomerId}
               >
                 <option value="">بدون آدرس تحویل</option>
@@ -168,13 +168,13 @@ export const FactorForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 روش پرداخت *
               </label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
                 <option value="نقدی">نقدی</option>
@@ -185,13 +185,13 @@ export const FactorForm: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 وضعیت *
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
                 <option value="در انتظار تایید">در انتظار تایید</option>
@@ -203,18 +203,18 @@ export const FactorForm: React.FC = () => {
         </div>
 
         {/* Factor Items */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg text-gray-900 flex items-center gap-2">
-              <ShoppingCart className="w-5 h-5" />
+            <h2 className="flex gap-2 items-center text-gray-900 text-lg">
+              <ShoppingCart className="h-5 w-5" />
               محصولات فاکتور
             </h2>
             <button
               type="button"
               onClick={addItem}
-              className="flex items-center gap-2 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className="flex gap-2 hover:bg-blue-50 items-center px-3 py-2 rounded-lg text-blue-600 transition-colors"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="h-4 w-4" />
               <span className="text-sm">افزودن محصول</span>
             </button>
           </div>
@@ -223,12 +223,12 @@ export const FactorForm: React.FC = () => {
             {items.map((item, index) => (
               <div
                 key={index}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 p-4 rounded-lg"
               >
-                <div className="flex items-start gap-4">
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="flex gap-4 items-start">
+                  <div className="flex-1 gap-4 grid grid-cols-1 md:grid-cols-4">
                     <div className="md:col-span-2">
-                      <label className="block text-sm text-gray-700 mb-2">
+                      <label className="block mb-2 text-gray-700 text-sm">
                         محصول *
                       </label>
                       <select
@@ -236,7 +236,7 @@ export const FactorForm: React.FC = () => {
                         onChange={(e) =>
                           updateItem(index, "productId", Number(e.target.value))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                         required
                       >
                         <option value={0}>انتخاب محصول</option>
@@ -250,7 +250,7 @@ export const FactorForm: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm text-gray-700 mb-2">
+                      <label className="block mb-2 text-gray-700 text-sm">
                         تعداد *
                       </label>
                       <input
@@ -259,14 +259,14 @@ export const FactorForm: React.FC = () => {
                         onChange={(e) =>
                           updateItem(index, "quantity", Number(e.target.value))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                         min="1"
                         required
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm text-gray-700 mb-2">
+                      <label className="block mb-2 text-gray-700 text-sm">
                         قیمت واحد (تومان) *
                       </label>
                       <input
@@ -275,7 +275,7 @@ export const FactorForm: React.FC = () => {
                         onChange={(e) =>
                           updateItem(index, "unitPrice", Number(e.target.value))
                         }
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                         min="0"
                         required
                       />
@@ -283,16 +283,16 @@ export const FactorForm: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="block text-sm text-gray-700 mb-2 opacity-0">
+                    <label className="block mb-2 opacity-0 text-gray-700 text-sm">
                       حذف
                     </label>
                     {items.length > 1 && (
                       <button
                         type="button"
                         onClick={() => removeItem(index)}
-                        className="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="hover:bg-red-50 p-3 rounded-lg text-red-600 transition-colors"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="h-5 w-5" />
                       </button>
                     )}
                   </div>
@@ -300,9 +300,9 @@ export const FactorForm: React.FC = () => {
 
                 {/* Item Total */}
                 {item.productId > 0 && item.quantity > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">جمع:</span>
+                  <div className="border-gray-200 border-t mt-3 pt-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 text-sm">جمع:</span>
                       <span className="text-gray-900">
                         {formatPrice(item.quantity * item.unitPrice)} تومان
                       </span>
@@ -314,9 +314,9 @@ export const FactorForm: React.FC = () => {
           </div>
 
           {/* Grand Total */}
-          <div className="mt-6 pt-6 border-t-2 border-gray-300">
-            <div className="flex justify-between items-center">
-              <span className="text-lg text-gray-900">مجموع کل:</span>
+          <div className="border-gray-300 border-t-2 mt-6 pt-6">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-900 text-lg">مجموع کل:</span>
               <span className="text-2xl text-blue-600">
                 {formatPrice(calculateTotal())} تومان
               </span>
@@ -325,18 +325,18 @@ export const FactorForm: React.FC = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-6 py-3 rounded-lg text-white transition-colors"
           >
-            <Save className="w-5 h-5" />
+            <Save className="h-5 w-5" />
             <span>ذخیره فاکتور</span>
           </button>
           <button
             type="button"
             onClick={() => navigate("/factors")}
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-700 transition-colors"
           >
             انصراف
           </button>

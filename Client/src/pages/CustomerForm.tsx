@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRight, Save, Plus, Trash2 } from "lucide-react";
-import { toast } from "sonner@2.0.3";
-import type { Address } from "../types";
+import { toast } from "sonner";
+import { Address } from "../types";
 
 export const CustomerForm: React.FC = () => {
   const navigate = useNavigate();
@@ -60,41 +60,41 @@ export const CustomerForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-4">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4 items-center">
         <button
           onClick={() => navigate("/customers")}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
         >
-          <ArrowRight className="w-6 h-6 text-gray-600" />
+          <ArrowRight className="h-6 text-gray-600 w-6" />
         </button>
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2">افزودن مشتری جدید</h1>
+          <h1 className="mb-2 text-2xl text-gray-900">افزودن مشتری جدید</h1>
           <p className="text-gray-600">اطلاعات مشتری را وارد کنید</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg text-gray-900 mb-4">اطلاعات شخصی</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
+          <h2 className="mb-4 text-gray-900 text-lg">اطلاعات شخصی</h2>
+          <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
             <div>
-              <label className="block text-sm text-gray-700 mb-2">نام *</label>
+              <label className="block mb-2 text-gray-700 text-sm">نام *</label>
               <input
                 type="text"
                 value={formData.firstName}
                 onChange={(e) =>
                   setFormData({ ...formData, firstName: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="نام را وارد کنید"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 نام خانوادگی *
               </label>
               <input
@@ -103,13 +103,13 @@ export const CustomerForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, lastName: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="نام خانوادگی را وارد کنید"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 شماره تلفن *
               </label>
               <input
@@ -118,14 +118,14 @@ export const CustomerForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="09121234567"
                 dir="ltr"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-700 mb-2">
+              <label className="block mb-2 text-gray-700 text-sm">
                 ایمیل *
               </label>
               <input
@@ -134,7 +134,7 @@ export const CustomerForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 placeholder="example@email.com"
                 dir="ltr"
                 required
@@ -144,15 +144,15 @@ export const CustomerForm: React.FC = () => {
         </div>
 
         {/* Addresses */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="bg-white border border-gray-200 p-6 rounded-xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg text-gray-900">آدرس‌ها</h2>
+            <h2 className="text-gray-900 text-lg">آدرس‌ها</h2>
             <button
               type="button"
               onClick={addAddress}
-              className="flex items-center gap-2 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className="flex gap-2 hover:bg-blue-50 items-center px-3 py-2 rounded-lg text-blue-600 transition-colors"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="h-4 w-4" />
               <span className="text-sm">افزودن آدرس</span>
             </button>
           </div>
@@ -161,7 +161,7 @@ export const CustomerForm: React.FC = () => {
             {addresses.map((address, index) => (
               <div
                 key={index}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 p-4 rounded-lg"
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-gray-900">آدرس {index + 1}</h3>
@@ -169,16 +169,16 @@ export const CustomerForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => removeAddress(index)}
-                      className="text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                      className="hover:bg-red-50 p-2 rounded-lg text-red-600 transition-colors"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="h-4 w-4" />
                     </button>
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       آدرس خط اول *
                     </label>
                     <input
@@ -187,13 +187,13 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "addressLine1", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       placeholder="خیابان، کوچه، پلاک"
                       required
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       آدرس خط دوم
                     </label>
                     <input
@@ -202,12 +202,12 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "addressLine2", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       placeholder="واحد، طبقه"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       شهر *
                     </label>
                     <input
@@ -216,13 +216,13 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "city", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       placeholder="تهران"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       استان *
                     </label>
                     <input
@@ -231,13 +231,13 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "state", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       placeholder="تهران"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       کد پستی *
                     </label>
                     <input
@@ -246,14 +246,14 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "postalCode", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       placeholder="1234567890"
                       dir="ltr"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 mb-2">
+                    <label className="block mb-2 text-gray-700 text-sm">
                       نوع آدرس *
                     </label>
                     <select
@@ -261,7 +261,7 @@ export const CustomerForm: React.FC = () => {
                       onChange={(e) =>
                         updateAddress(index, "addressType", e.target.value)
                       }
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                       required
                     >
                       <option value="منزل">منزل</option>
@@ -276,18 +276,18 @@ export const CustomerForm: React.FC = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <button
             type="submit"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-6 py-3 rounded-lg text-white transition-colors"
           >
-            <Save className="w-5 h-5" />
+            <Save className="h-5 w-5" />
             <span>ذخیره مشتری</span>
           </button>
           <button
             type="button"
             onClick={() => navigate("/customers")}
-            className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-700 transition-colors"
           >
             انصراف
           </button>

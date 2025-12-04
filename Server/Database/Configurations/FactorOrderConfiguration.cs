@@ -20,28 +20,22 @@ public class FactorOrderConfiguration : IEntityTypeConfiguration<FactorOrder>
         // --- Column Properties Configuration ---
 
         // Quantity
-        builder.Property(fo => fo.Quantity)
+        builder.Property(fo => fo.Count)
             .IsRequired();
 
-        // UnitPrice
-        builder.Property(fo => fo.UnitPrice)
-            .IsRequired();
-        //   .HasColumnType("decimal(10, 2)");
-
-        // --- Relationships Configuration ---
 
         // --- FactorOrder to Factor Relationship (Many-to-One) ---
         // Many factor order items can belong to a single factor.
         builder.HasOne(fo => fo.Factor)
                .WithMany(f => f.FactorOrders) // Assumes Factor has a 'FactorOrders' collection
-               .HasForeignKey(fo => fo.FactorID)
+               .HasForeignKey(fo => fo.FactorId)
                .OnDelete(DeleteBehavior.Cascade); // If a Factor is deleted, its line items should be deleted too.
 
         // --- FactorOrder to Product Relationship (Many-to-One) ---
         // Many factor order items can reference the same product.
         builder.HasOne(fo => fo.Product)
                .WithMany(p => p.FactorOrders)
-               .HasForeignKey(fo => fo.ProductID)
+               .HasForeignKey(fo => fo.ProductId)
                .OnDelete(DeleteBehavior.Restrict);
     }
 }

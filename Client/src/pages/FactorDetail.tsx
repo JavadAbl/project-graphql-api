@@ -27,15 +27,15 @@ export const FactorDetail: React.FC = () => {
   if (!factor) {
     return (
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl text-gray-900 mb-2">فاکتور یافت نشد</h2>
-          <p className="text-gray-600 mb-6">
+        <div className="bg-white border border-gray-200 p-12 rounded-xl text-center">
+          <FileText className="h-16 mb-4 mx-auto text-gray-400 w-16" />
+          <h2 className="mb-2 text-gray-900 text-xl">فاکتور یافت نشد</h2>
+          <p className="mb-6 text-gray-600">
             فاکتور مورد نظر در سیستم وجود ندارد
           </p>
           <button
             onClick={() => navigate("/factors")}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white transition-colors"
           >
             بازگشت به لیست فاکتورها
           </button>
@@ -76,18 +76,18 @@ export const FactorDetail: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between print:hidden">
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <button
             onClick={() => navigate("/factors")}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="hover:bg-gray-100 p-2 rounded-lg transition-colors"
           >
-            <ArrowRight className="w-6 h-6 text-gray-600" />
+            <ArrowRight className="h-6 text-gray-600 w-6" />
           </button>
           <div>
-            <h1 className="text-2xl text-gray-900 mb-2">
+            <h1 className="mb-2 text-2xl text-gray-900">
               جزئیات فاکتور #{factor.id}
             </h1>
             <p className="text-gray-600">
@@ -98,20 +98,20 @@ export const FactorDetail: React.FC = () => {
         </div>
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-4 py-2 rounded-lg text-white transition-colors"
         >
-          <Printer className="w-5 h-5" />
+          <Printer className="h-5 w-5" />
           <span>چاپ فاکتور</span>
         </button>
       </div>
 
       {/* Factor Card */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white border border-gray-200 overflow-hidden rounded-xl">
         {/* Header Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8">
+        <div className="bg-gradient-to-r from-blue-600 p-8 text-white to-blue-700">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-3xl mb-2">فاکتور فروش</h2>
+              <h2 className="mb-2 text-3xl">فاکتور فروش</h2>
               <p className="text-blue-100">شماره: {factor.id}</p>
             </div>
             <div className="text-left">
@@ -128,11 +128,11 @@ export const FactorDetail: React.FC = () => {
 
         {/* Info Section */}
         <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="gap-8 grid grid-cols-1 mb-8 md:grid-cols-2">
             {/* Customer Info */}
             <div>
-              <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-                <User className="w-5 h-5 text-blue-600" />
+              <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+                <User className="h-5 text-blue-600 w-5" />
                 اطلاعات مشتری
               </h3>
               <div className="space-y-2 text-gray-700">
@@ -152,8 +152,8 @@ export const FactorDetail: React.FC = () => {
 
             {/* Branch Info */}
             <div>
-              <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-                <MapPin className="w-5 h-5 text-blue-600" />
+              <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+                <MapPin className="h-5 text-blue-600 w-5" />
                 اطلاعات شعبه
               </h3>
               <div className="space-y-2 text-gray-700">
@@ -174,8 +174,8 @@ export const FactorDetail: React.FC = () => {
             {/* Delivery Address */}
             {address && (
               <div className="md:col-span-2">
-                <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+                  <MapPin className="h-5 text-blue-600 w-5" />
                   آدرس تحویل
                 </h3>
                 <p className="text-gray-700">
@@ -188,8 +188,8 @@ export const FactorDetail: React.FC = () => {
 
             {/* Payment & Date Info */}
             <div>
-              <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-                <Calendar className="w-5 h-5 text-blue-600" />
+              <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+                <Calendar className="h-5 text-blue-600 w-5" />
                 تاریخ و زمان
               </h3>
               <p className="text-gray-700">
@@ -203,8 +203,8 @@ export const FactorDetail: React.FC = () => {
             </div>
 
             <div>
-              <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-                <CreditCard className="w-5 h-5 text-blue-600" />
+              <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+                <CreditCard className="h-5 text-blue-600 w-5" />
                 روش پرداخت
               </h3>
               <p className="text-gray-700">{factor.paymentMethod}</p>
@@ -213,32 +213,32 @@ export const FactorDetail: React.FC = () => {
 
           {/* Items Table */}
           <div className="mb-6">
-            <h3 className="flex items-center gap-2 text-lg text-gray-900 mb-4">
-              <Package className="w-5 h-5 text-blue-600" />
+            <h3 className="flex gap-2 items-center mb-4 text-gray-900 text-lg">
+              <Package className="h-5 text-blue-600 w-5" />
               محصولات
             </h3>
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
+            <div className="border border-gray-200 overflow-hidden rounded-lg">
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-right text-sm text-gray-600">
+                    <th className="px-6 py-3 text-gray-600 text-right text-sm">
                       ردیف
                     </th>
-                    <th className="px-6 py-3 text-right text-sm text-gray-600">
+                    <th className="px-6 py-3 text-gray-600 text-right text-sm">
                       محصول
                     </th>
-                    <th className="px-6 py-3 text-right text-sm text-gray-600">
+                    <th className="px-6 py-3 text-gray-600 text-right text-sm">
                       تعداد
                     </th>
-                    <th className="px-6 py-3 text-right text-sm text-gray-600">
+                    <th className="px-6 py-3 text-gray-600 text-right text-sm">
                       قیمت واحد
                     </th>
-                    <th className="px-6 py-3 text-right text-sm text-gray-600">
+                    <th className="px-6 py-3 text-gray-600 text-right text-sm">
                       جمع
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-gray-200 divide-y">
                   {factorItems.map((item, index) => {
                     const product = mockProducts.find(
                       (p) => p.id === item.productId
@@ -249,7 +249,7 @@ export const FactorDetail: React.FC = () => {
                         <td className="px-6 py-4">
                           <div>
                             <p className="text-gray-900">{product?.name}</p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-gray-500 text-sm">
                               {product?.sku}
                             </p>
                           </div>
@@ -272,9 +272,9 @@ export const FactorDetail: React.FC = () => {
           </div>
 
           {/* Total Section */}
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="flex justify-between items-center">
-              <span className="text-xl text-gray-900">مبلغ کل فاکتور:</span>
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-900 text-xl">مبلغ کل فاکتور:</span>
               <span className="text-3xl text-blue-600">
                 {formatPrice(factor.totalAmount)} تومان
               </span>

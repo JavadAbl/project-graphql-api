@@ -8,20 +8,24 @@ public class BranchMutationResolvers
 {
   public async Task<BranchDto> CreateBranch(
     CreateBranchInput input,
-    [Service] IBranchService branchService) =>
-    await branchService.Create(input);
+    [Service] IBranchService branchService)
+  {
+    return await branchService.Create(input);
+  }
 
   public async Task<BranchDto?> UpdateBranch(
        int id,
        UpdateBranchInput input,
-       [Service] IBranchService branchService) =>
-       await branchService.Update(id, input);
+       [Service] IBranchService branchService)
+  {
+    return await branchService.Update(id, input);
+  }
 
 
   public async Task<bool> DeleteBranch(
       int id,
-      [Service] IBranchService branchService) =>
-      await branchService.Delete(id);
+      [Service] IBranchService branchService)
+  { return await branchService.Delete(id); }
 
 }
 

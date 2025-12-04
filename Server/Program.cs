@@ -31,6 +31,11 @@ builder.Services.AddCors(options =>
 
 //Serivces------------------------------------------------------
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBranchService, BranchService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+//Graphql------------------------------------------------------
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
@@ -45,7 +50,7 @@ builder.Services.AddGraphQLServer()
         options.AllowBackwardPagination = true; // Allow "last" and "before" arguments
         options.RequirePagingBoundaries = false; // Whether first/last are required
     })
-    //User
+    //Users
     .AddType<UserQueryResolvers>()
     .AddType<UserMutationResolvers>()
     .AddType<UserType>()
@@ -69,6 +74,10 @@ builder.Services.AddGraphQLServer()
 
 //Repositories------------------------------------------------------
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBranchRepository, BranchRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IFactorRepository, FactorRepository>();
 
 //App------------------------------------------------------
 var app = builder.Build();

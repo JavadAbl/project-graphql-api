@@ -1,0 +1,12 @@
+query Branch_Query_GetBranches {
+  branchesQuery {
+    branches {
+      items {
+        id
+        name
+        phone
+        location
+      }
+    }
+  }
+}

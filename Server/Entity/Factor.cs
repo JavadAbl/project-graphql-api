@@ -1,12 +1,14 @@
-﻿namespace API.Entity;
+﻿using Server.Enums;
+
+namespace API.Entity;
 
 public class Factor
 {
     public int Id { get; set; }
     public DateTime FactorDate { get; set; } = DateTime.Now;
     public decimal TotalAmount { get; set; }
-    public required string PaymentMethod { get; set; }
-    public required string Status { get; set; }
+    public required PaymentMethods PaymentMethod { get; set; }
+    public FactorStatus Status { get; set; } = FactorStatus.Pending;
 
 
     // --- Navigation Properties ---

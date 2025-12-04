@@ -45,39 +45,39 @@ export const Factors: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2">فاکتورها</h1>
+          <h1 className="mb-2 text-2xl text-gray-900">فاکتورها</h1>
           <p className="text-gray-600">مدیریت فاکتورها و سفارشات</p>
         </div>
         <Link
           to="/factors/new"
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="bg-blue-600 flex gap-2 hover:bg-blue-700 items-center px-4 py-2 rounded-lg text-white transition-colors"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="h-5 w-5" />
           <span>ثبت فاکتور جدید</span>
         </Link>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-white border border-gray-200 p-4 rounded-xl">
+        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
           <div className="relative">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="-translate-y-1/2 absolute h-5 right-3 text-gray-400 top-1/2 w-5" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="جستجو بر اساس شماره فاکتور یا نام مشتری..."
-              className="w-full pr-10 pl-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 pl-4 pr-10 py-3 rounded-lg w-full"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg"
           >
             <option value="all">همه وضعیت‌ها</option>
             <option value="تکمیل شده">تکمیل شده</option>
@@ -88,43 +88,43 @@ export const Factors: React.FC = () => {
       </div>
 
       {/* Factors Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white border border-gray-200 overflow-hidden rounded-xl">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   شماره فاکتور
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   مشتری
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   شعبه
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   تاریخ
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   مبلغ کل
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   روش پرداخت
                 </th>
-                <th className="px-6 py-4 text-right text-sm text-gray-600">
+                <th className="px-6 py-4 text-gray-600 text-right text-sm">
                   وضعیت
                 </th>
-                <th className="px-6 py-4 text-center text-sm text-gray-600">
+                <th className="px-6 py-4 text-center text-gray-600 text-sm">
                   عملیات
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-gray-200 divide-y">
               {filteredFactors.map((factor) => (
                 <tr key={factor.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-blue-600" />
+                    <div className="flex gap-2 items-center">
+                      <FileText className="h-4 text-blue-600 w-4" />
                       <span className="text-gray-900">#{factor.id}</span>
                     </div>
                   </td>
@@ -139,8 +139,8 @@ export const Factors: React.FC = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Calendar className="w-4 h-4" />
+                    <div className="flex gap-2 items-center text-gray-600">
+                      <Calendar className="h-4 w-4" />
                       <span className="text-sm">
                         {new Date(factor.factorDate).toLocaleDateString(
                           "fa-IR"
@@ -171,9 +171,9 @@ export const Factors: React.FC = () => {
                     <div className="flex items-center justify-center">
                       <Link
                         to={`/factors/${factor.id}`}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="hover:bg-blue-50 p-2 rounded-lg text-blue-600 transition-colors"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="h-4 w-4" />
                       </Link>
                     </div>
                   </td>
@@ -186,11 +186,11 @@ export const Factors: React.FC = () => {
 
       {/* Empty State */}
       {filteredFactors.length === 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Search className="w-8 h-8 text-gray-400" />
+        <div className="bg-white border border-gray-200 p-12 rounded-xl text-center">
+          <div className="bg-gray-100 flex h-16 items-center justify-center mb-4 mx-auto rounded-full w-16">
+            <Search className="h-8 text-gray-400 w-8" />
           </div>
-          <h3 className="text-gray-900 mb-2">فاکتوری یافت نشد</h3>
+          <h3 className="mb-2 text-gray-900">فاکتوری یافت نشد</h3>
           <p className="text-gray-600">
             جستجوی خود را تغییر دهید یا فاکتور جدیدی ثبت کنید
           </p>

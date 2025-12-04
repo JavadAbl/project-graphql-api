@@ -8,22 +8,20 @@ namespace API.GraphQL.Branch;
 
 public class BranchQueryResolvers
 {
-    [UseOffsetPaging()]
+    [UseOffsetPaging]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public Task<List<BranchDto>> GetBranches([Service] IBranchService branchService)
+    public IQueryable<BranchDto> GetBranches([Service] IBranchService branchService)
     {
-
-        return branchService.GetMany().ToListAsync();
+        return branchService.GetMany();
     }
 
-
+    [UseFirstOrDefault]
     [UseProjection]
-    public Task<BranchDto?> GetBranchById(int id, [Service] IBranchService branchService)
+    public IQueryable<BranchDto?> GetBranchById(int id, [Service] IBranchService branchService)
     {
-
-        return branchService.GetById(id).FirstOrDefaultAsync();
+        return branchService.GetById(id);
     }
 
     public async Task<BranchDto> CreateBranch(CreateBranchInput input, [Service] IBranchService branchService)

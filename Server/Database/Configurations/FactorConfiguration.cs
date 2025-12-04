@@ -68,6 +68,6 @@ public class FactorConfiguration : IEntityTypeConfiguration<Factor>
 
         builder.HasMany(f => f.FactorOrders)
                .WithOne(fo => fo.Factor)
-               .HasForeignKey(fo => fo.FactorID);
+               .HasForeignKey(fo => fo.FactorId);
     }
 }
