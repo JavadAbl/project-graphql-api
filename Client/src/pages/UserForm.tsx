@@ -3,25 +3,18 @@ import { useNavigate, useParams } from "react-router";
 import { ArrowRight, Save, UserCog } from "lucide-react";
 import { toast } from "sonner";
 import { userService } from "../data/userService";
-import { mockBranches } from "../data/mockData";
 import {
   Branch_Query_GetBranchesDocument,
+  User_Mutation_CreateUserDocument,
   User_Query_GetUserByIdDocument,
   UserRoles,
 } from "../gql/graphql";
-import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client/react";
 
 export const UserForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = Boolean(id);
-
-  //Data---------------------------------------------------------
-  const { data: branchesData } = useQuery(Branch_Query_GetBranchesDocument);
-  const branches = branchesData?.branchesQuery.branches?.items;
-
-  const [fetchUser] = useLazyQuery(User_Query_GetUserByIdDocument);
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -31,6 +24,17 @@ export const UserForm: React.FC = () => {
     branchId: 0,
     isActive: true,
   });
+
+  //Query---------------------------------------------------------
+  const { data: branchesData } = useQuery(Branch_Query_GetBranchesDocument);
+
+  const branches = branchesData?.branchesQuery.branches?.items ?? [];
+
+  const [fetchUser] = useLazyQuery(User_Query_GetUserByIdDocument);
+
+  //Mutation---------------------------------------------------------
+  const [mutateCreateUser, { loading: isLoadingMutateCreateUser }] =
+    useMutation(User_Mutation_CreateUserDocument);
 
   useEffect(() => {
     (async () => {
@@ -66,17 +70,6 @@ export const UserForm: React.FC = () => {
       return;
     }
 
-    // Check username uniqueness
-    const allUsers = userService.getAll();
-    const usernameExists = allUsers.some(
-      (u) => u.username === formData.username && u.id !== Number(id)
-    );
-
-    if (usernameExists) {
-      toast.error("این نام کاربری قبلاً استفاده شده است");
-      return;
-    }
-
     if (isEdit) {
       // Update existing user
       const updateData: any = {
@@ -92,15 +85,19 @@ export const UserForm: React.FC = () => {
       toast.success("کاربر با موفقیت ویرایش شد");
     } else {
       // Create new user
-      userService.create({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.username,
-        password: formData.password,
-        role: formData.role,
-        branchId: formData.branchId ? Number(formData.branchId) : undefined,
-        isActive: formData.isActive,
+      mutateCreateUser({
+        variables: {
+          input: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            username: formData.username,
+            password: formData.password,
+            role: formData.role,
+            branchId: formData.branchId ? Number(formData.branchId) : null,
+          },
+        },
       });
+
       toast.success("کاربر با موفقیت ثبت شد");
     }
 
@@ -117,6 +114,7 @@ export const UserForm: React.FC = () => {
         >
           <ArrowRight className="h-6 text-gray-600 w-6" />
         </button>
+
         <div>
           <h1 className="mb-2 text-2xl text-gray-900">
             {isEdit ? "ویرایش کاربر" : "افزودن کاربر جدید"}
@@ -138,6 +136,7 @@ export const UserForm: React.FC = () => {
           <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
             <div>
               <label className="block mb-2 text-gray-700 text-sm">نام *</label>
+
               <input
                 type="text"
                 value={formData.firstName}
@@ -209,14 +208,14 @@ export const UserForm: React.FC = () => {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    role: e.target.value as "Manager" | "Operator",
+                    role: e.target.value,
                   })
                 }
                 className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
                 required
               >
-                <option value="Operator">اپراتور</option>
-                <option value="Manager">مدیر</option>
+                <option value={UserRoles.Operator}>اپراتور</option>
+                <option value={UserRoles.Admin}>مدیر</option>
               </select>
             </div>
 
@@ -225,12 +224,12 @@ export const UserForm: React.FC = () => {
               <select
                 value={formData.branchId}
                 onChange={(e) =>
-                  setFormData({ ...formData, branchId: e.target.value })
+                  setFormData({ ...formData, branchId: Number(e.target.value) })
                 }
                 className="border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 px-4 py-3 rounded-lg w-full"
               >
                 <option value="">بدون شعبه</option>
-                {mockBranches.map((branch) => (
+                {branches.map((branch) => (
                   <option key={branch.id} value={branch.id}>
                     {branch.name}
                   </option>
@@ -274,6 +273,7 @@ export const UserForm: React.FC = () => {
             <Save className="h-5 w-5" />
             <span>{isEdit ? "ذخیره تغییرات" : "ذخیره کاربر"}</span>
           </button>
+
           <button
             type="button"
             onClick={() => navigate("/users")}

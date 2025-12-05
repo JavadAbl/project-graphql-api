@@ -10,9 +10,9 @@ public record UpdateUserInput
 
     public string? Username { get; init; }
 
-    public string? Password { get; init; }
-
     public UserRoles? Role { get; init; }
+
+    public byte? IsActive { get; init; }
 
 }
 

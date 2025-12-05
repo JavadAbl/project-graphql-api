@@ -8,16 +8,21 @@ using API.Interfaces.Repositories;
 using API.Interfaces.Services;
 using API.Repositories;
 using API.Services;
+using AppAny.HotChocolate.FluentValidation;
 using Database;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Server.GraphQL.Branch.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Db Context------------------------------------------------------
 builder.Services.AddDbContext<AppDbContext>(op =>
 {
     op.UseSqlite("Data Source=app.db");
 });
 
-
+//Cors------------------------------------------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -28,6 +33,9 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+
+//Validation------------------------------------------------------
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 //Serivces------------------------------------------------------
 builder.Services.AddScoped<IUserService, UserService>();
@@ -50,25 +58,11 @@ builder.Services.AddGraphQLServer()
         options.AllowBackwardPagination = true; // Allow "last" and "before" arguments
         options.RequirePagingBoundaries = false; // Whether first/last are required
     })
-    //Users
-    .AddType<UserQueryResolvers>()
-    .AddType<UserMutationResolvers>()
+    .AddFluentValidation()
     .AddType<UserType>()
-    //Branch
-    .AddType<BranchQueryResolvers>()
-    .AddType<BranchMutationResolvers>()
     .AddType<BranchType>()
-    //Factor
-    .AddType<FactorQueryResolvers>()
-    .AddType<FactorMutationResolvers>()
     .AddType<FactorType>()
-    //Customer
-    .AddType<CustomerQueryResolvers>()
-    .AddType<CustomerMutationResolvers>()
     .AddType<CustomerType>()
-    //Address
-    .AddType<AddressQueryResolvers>()
-    .AddType<AddressMutationResolvers>()
     .AddType<AddressType>();
 
 

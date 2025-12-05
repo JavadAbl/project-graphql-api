@@ -1,19 +1,20 @@
 ﻿using API.Dto;
 using API.GraphQL.Address.AddressInputs;
 using API.Interfaces.Services;
+using AppAny.HotChocolate.FluentValidation;
 
 namespace API.GraphQL.Address;
 
 public class AddressMutationResolvers
 {
   public async Task<AddressDto> CreateAddress(
-    CreateAddressInput input,
+   [UseFluentValidation] CreateAddressInput input,
     [Service] IAddressService addressService) =>
     await addressService.Create(input);
 
   public async Task<AddressDto?> UpdateAddress(
        int id,
-       UpdateAddressInput input,
+     [UseFluentValidation] UpdateAddressInput input,
        [Service] IAddressService addressService) =>
        await addressService.Update(id, input);
 

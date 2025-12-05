@@ -9,7 +9,7 @@ public class Address
     public string? State { get; set; }
     public required string PostalCode { get; set; }
     public required string Country { get; set; }
-    public required string AddressType { get; set; }
+    public string? AddressType { get; set; }
 
     // --- Navigation Property ---
     public required virtual Customer Customer { get; set; }

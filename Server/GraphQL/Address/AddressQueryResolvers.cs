@@ -1,6 +1,5 @@
 ﻿using API.Dto;
 using API.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Address;
 

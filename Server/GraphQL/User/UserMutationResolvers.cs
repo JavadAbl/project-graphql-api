@@ -1,6 +1,7 @@
 ﻿using API.Dto;
 using API.GraphQL.User.UserInputs;
 using API.Interfaces.Services;
+using AppAny.HotChocolate.FluentValidation;
 
 namespace API.GraphQL.User;
 
@@ -8,13 +9,13 @@ namespace API.GraphQL.User;
 public class UserMutationResolvers
 {
   public async Task<UserDto> CreateUser(
-    CreateUserInput input,
+  [UseFluentValidation] CreateUserInput input,
     [Service] IUserService userService) =>
     await userService.Create(input);
 
   public async Task<UserDto?> UpdateUser(
        int id,
-       UpdateUserInput input,
+      [UseFluentValidation] UpdateUserInput input,
        [Service] IUserService userService) =>
        await userService.Update(id, input);
 
@@ -26,7 +27,7 @@ public class UserMutationResolvers
 
   public async Task<bool> SetUserBranch(
      int id,
-     SetUserBranchInput input,
+    [UseFluentValidation] SetUserBranchInput input,
     [Service] IUserService userService) =>
   await userService.SetBranch(id, input);
 }
