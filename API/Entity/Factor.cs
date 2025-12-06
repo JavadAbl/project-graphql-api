@@ -12,17 +12,17 @@ public class Factor
 
 
     // --- Navigation Properties ---
-    public virtual required Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; } = null!;
     public int CustomerId { get; set; }
 
-    public virtual required User User { get; set; }
+    public virtual User User { get; set; } = null!;
     public int UserId { get; set; }
 
-    public virtual required Branch Branch { get; set; }
+    public virtual Branch Branch { get; set; } = null!;
     public int BranchId { get; set; }
 
-    public virtual required Address DeliveryAddress { get; set; }
+    public virtual Address DeliveryAddress { get; set; } = null!;
     public int DeliveryAddressId { get; set; }
 
-    public virtual required ICollection<FactorOrder> FactorOrders { get; set; }
+    public virtual ICollection<FactorOrder> FactorOrders { get; set; } = null!;
 }

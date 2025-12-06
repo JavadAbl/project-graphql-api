@@ -6,9 +6,9 @@ public class FactorOrder
     public int Count { get; set; }
 
     // --- Navigation Properties ---
-    public virtual required Factor Factor { get; set; }
+    public virtual Factor Factor { get; set; } = null!;
     public int FactorId { get; set; }
 
-    public virtual required Product Product { get; set; }
+    public virtual Product Product { get; set; } = null!;
     public int ProductId { get; set; }
 }
