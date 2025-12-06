@@ -8,26 +8,18 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
 {
     public void Configure(EntityTypeBuilder<Branch> builder)
     {
-        // --- Table Configuration ---
         builder.ToTable("Branches");
 
-        // --- Primary Key Configuration ---
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
             .ValueGeneratedOnAdd(); // Equivalent to DatabaseGeneratedOption.Identity
 
-        // --- Column Properties Configuration ---
-
-        // Name
         builder.Property(b => b.Name)
-            .IsRequired()
             .HasMaxLength(100);
 
-        // Phone
         builder.Property(b => b.Phone)
             .HasMaxLength(20);
 
-        // Location
         builder.Property(b => b.Location)
             .HasMaxLength(255);
 

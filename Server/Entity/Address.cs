@@ -12,6 +12,6 @@ public class Address
     public string? AddressType { get; set; }
 
     // --- Navigation Property ---
-    public required virtual Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; } = null!;
     public int CustomerId { get; set; }
 }

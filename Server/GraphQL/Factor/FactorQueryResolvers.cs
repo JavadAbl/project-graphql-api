@@ -1,26 +1,25 @@
 ﻿using API.Dto;
 using API.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.GraphQL.Factor;
 
 
 public class FactorQueryResolvers
 {
-    [UseOffsetPaging()]
+    [UseOffsetPaging]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public Task<List<FactorDto>> GetFactores([Service] IFactorService factorService)
+    public IQueryable<FactorDto> GetFactores([Service] IFactorService factorService)
     {
-        return factorService.GetMany().ToListAsync();
+        return factorService.GetMany();
     }
 
-
+    [UseFirstOrDefault]
     [UseProjection]
-    public Task<FactorDto?> GetFactorById(int id, [Service] IFactorService factorService)
+    public IQueryable<FactorDto?> GetFactorById(int id, [Service] IFactorService factorService)
     {
-        return factorService.GetById(id).FirstOrDefaultAsync();
+        return factorService.GetById(id);
     }
 
 }

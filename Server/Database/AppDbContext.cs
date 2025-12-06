@@ -71,6 +71,20 @@ public class AppDbContext(DbContextOptions op) : DbContext(op)
             }
        );
 
+        modelBuilder.Entity<Address>().HasData(
+        new Address
+        {
+            Id = 1,
+            AddressLine1 = "branch1",
+            City = "location1",
+            Country = "asd",
+            PostalCode = "123",
+            CustomerId = 1,
+        }
+      );
+
+
+
     }
 }
 

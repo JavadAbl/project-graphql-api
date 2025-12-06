@@ -9,33 +9,20 @@ public class FactorConfiguration : IEntityTypeConfiguration<Factor>
 {
     public void Configure(EntityTypeBuilder<Factor> builder)
     {
-        // --- Table Configuration ---
         builder.ToTable("Factors");
 
-        // --- Primary Key Configuration ---
         builder.HasKey(f => f.Id);
         builder.Property(f => f.Id)
-            .ValueGeneratedOnAdd(); // Equivalent to DatabaseGeneratedOption.Identity
+            .ValueGeneratedOnAdd();
 
-        // --- Column Properties Configuration ---
+        builder.Property(f => f.FactorDate);
 
-        // FactorDate
-        builder.Property(f => f.FactorDate)
-            .IsRequired();
+        builder.Property(f => f.TotalAmount);
 
-        // TotalAmount
-        builder.Property(f => f.TotalAmount)
-            .IsRequired();
-        //   .HasColumnType("decimal(10, 2)");
-
-        // PaymentMethod
         builder.Property(f => f.PaymentMethod)
-            .IsRequired()
             .HasMaxLength(50);
 
-        // Status
         builder.Property(f => f.Status)
-            .IsRequired()
             .HasMaxLength(20);
 
         // --- Relationships Configuration ---

@@ -9,20 +9,13 @@ public class FactorOrderConfiguration : IEntityTypeConfiguration<FactorOrder>
 {
     public void Configure(EntityTypeBuilder<FactorOrder> builder)
     {
-        // --- Table Configuration ---
         builder.ToTable("FactorOrders");
 
-        // --- Primary Key Configuration ---
         builder.HasKey(fo => fo.Id);
         builder.Property(fo => fo.Id)
-            .ValueGeneratedOnAdd(); // Equivalent to DatabaseGeneratedOption.Identity
+            .ValueGeneratedOnAdd();
 
-        // --- Column Properties Configuration ---
-
-        // Quantity
-        builder.Property(fo => fo.Count)
-            .IsRequired();
-
+        builder.Property(fo => fo.Count);
 
         // --- FactorOrder to Factor Relationship (Many-to-One) ---
         // Many factor order items can belong to a single factor.

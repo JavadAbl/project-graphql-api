@@ -9,44 +9,28 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
 
-
-        // --- Table Configuration ---
         builder.ToTable("Users");
 
-        // --- Primary Key Configuration ---
         builder.HasKey(u => u.Id);
         builder.Property(u => u.Id)
-            .ValueGeneratedOnAdd(); // Equivalent to DatabaseGeneratedOption.Identity
+            .ValueGeneratedOnAdd();
 
-        // --- Column Properties Configuration ---
-
-        // FirstName
         builder.Property(u => u.FirstName)
-            .IsRequired()
             .HasMaxLength(50);
 
-        // LastName
         builder.Property(u => u.LastName)
-            .IsRequired()
             .HasMaxLength(50);
 
-        // Username
         builder.Property(u => u.Username)
-            .IsRequired()
             .HasMaxLength(50);
 
-        // Create the unique index on the Username column
         builder.HasIndex(u => u.Username)
             .IsUnique();
 
-        // PasswordHash
         builder.Property(u => u.PasswordHash)
-            .IsRequired()
             .HasMaxLength(255);
 
-        // Role
         builder.Property(u => u.Role)
-            .IsRequired()
             .HasMaxLength(50);
 
         // --- Relationships Configuration ---

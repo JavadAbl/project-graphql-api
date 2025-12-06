@@ -24,7 +24,7 @@ public class BranchMutationResolvers
 
 
   public async Task<bool> DeleteBranch(
-      int id,
+       int id,
       [Service] IBranchService branchService)
   { return await branchService.Delete(id); }
 
