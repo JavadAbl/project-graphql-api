@@ -12,7 +12,7 @@ public record UpdateUserInput
 
     public UserRoles? Role { get; init; }
 
-    public byte? IsActive { get; init; }
+    public bool? IsActive { get; init; }
 
 }
 
